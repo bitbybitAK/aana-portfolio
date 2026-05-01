@@ -3,622 +3,1956 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aana Khanduri — Field Notebook Vol. I (v6 design reference)</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;500&display=swap">
+<title>v7 reference grid v3 · full homepage · Aana Khanduri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;500&display=swap">
 <style>
-  body { margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; background: #FAFAF7; color: #1A1A1A; }
-  .reference-banner { position: fixed; top: 0; left: 0; right: 0; background: #2D4A3E; color: #FAFAF7; padding: 8px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-align: center; z-index: 100; letter-spacing: 0.05em; }
-  .reference-banner strong { color: #FAFAF7; }
-  #page-root { padding-top: 32px; }
+:root {
+  --cream: #FAFAF7;
+  --cream-2: #F2EEE3;
+  --cream-3: #ECE6D6;
+  --paper: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-2: #4A4A47;
+  --ink-3: #888780;
+  --border: #E0DCCF;
+  --border-soft: #EDE9DE;
 
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  @keyframes pdrift1 { 0%,100%{transform:rotate(-6deg) translateY(0)} 50%{transform:rotate(-6deg) translateY(-8px)} }
-  @keyframes pdrift2 { 0%,100%{transform:rotate(5deg) translateY(0)} 50%{transform:rotate(5deg) translateY(-6px)} }
-  @keyframes pdrift3 { 0%,100%{transform:rotate(-3deg) translateY(0)} 50%{transform:rotate(-3deg) translateY(-9px)} }
-  @keyframes booktilt1 { 0%,100%{transform:rotate(-2deg) translateY(0)} 50%{transform:rotate(-2deg) translateY(-6px)} }
-  @keyframes booktilt2 { 0%,100%{transform:rotate(1.5deg) translateY(0)} 50%{transform:rotate(1.5deg) translateY(-9px)} }
-  @keyframes booktilt3 { 0%,100%{transform:rotate(-1deg) translateY(0)} 50%{transform:rotate(-1deg) translateY(-7px)} }
-  @keyframes booktilt4 { 0%,100%{transform:rotate(2.5deg) translateY(0)} 50%{transform:rotate(2.5deg) translateY(-10px)} }
+  --sage: #B8CFB7;
+  --sage-deep: #94B294;
+  --sage-darker: #6E8E72;
+  --pink: #F2C9CD;
+  --pink-deep: #D8A0A6;
+  --pink-darker: #B47C82;
+  --powder: #C8D6E2;
+  --powder-deep: #A0B4C5;
+  --powder-darker: #708798;
+  --honey: #F0DAA8;
+  --honey-deep: #D4B97E;
+  --honey-darker: #A38B58;
+  --lilac: #DAD0E5;
+  --lilac-deep: #B8A8CC;
+  --peach: #F5D5BC;
+  --peach-deep: #D8AE89;
+}
 
-  .book-tilt-1 { animation: booktilt1 4.5s ease-in-out infinite; }
-  .book-tilt-2 { animation: booktilt2 5.5s ease-in-out infinite 0.4s; }
-  .book-tilt-3 { animation: booktilt3 5s ease-in-out infinite 0.8s; }
-  .book-tilt-4 { animation: booktilt4 6s ease-in-out infinite 1.2s; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { cursor: none; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  position: relative;
+  overflow-x: hidden;
+}
+a, button, [data-cursor] { cursor: none; }
 
-  @keyframes drawLine { to { stroke-dashoffset: 0; } }
-  .draw-chart .anim-line { animation: drawLine 1.8s cubic-bezier(0.22,1,0.36,1) forwards; animation-delay: 0.2s; }
+/* ============ CURSOR (PASTEL PINK, BIGGER) ============ */
+.cursor-dot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 14px;
+  height: 14px;
+  background: var(--pink-deep);
+  border-radius: 50%;
+  transition: transform 0.55s cubic-bezier(0.22,1,0.36,1),
+              width 0.4s cubic-bezier(0.22,1,0.36,1),
+              height 0.4s cubic-bezier(0.22,1,0.36,1),
+              padding 0.4s,
+              border-radius 0.4s,
+              background 0.3s,
+              color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  color: transparent;
+  margin-left: -7px;
+  margin-top: -7px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(216,160,166,0.35);
+}
+.cursor-dot.expanded {
+  width: auto;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--pink-darker);
+  font-size: 11px;
+  margin-left: 0;
+  margin-top: 0;
+  box-shadow: 0 6px 20px rgba(216,160,166,0.40);
+}
 
-  .bloom-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
-  .bloom-card:hover .bloom-overlay { opacity: 1; }
-  .bloom-card:hover .bloom-phone { transform: scale(1.08) translateY(-4px); }
-  .bloom-card:hover .bloom-preview { padding: 14px; }
+/* ============ LAYOUT: SIDEBAR + MAIN ============ */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  position: relative;
+}
 
-  .analytics-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(184,130,31,0.15); border-color: #B8821F; }
-  .note-strip:hover { border-color: #B5797E; transform: translateY(-3px); box-shadow: 0 8px 22px rgba(181,121,126,0.10); }
+/* ============ SIDEBAR ============ */
+aside.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 48px 36px 40px;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream-2);
+  border-right: 1px solid var(--border);
+  z-index: 50;
+}
+.sb-name {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 32px;
+  letter-spacing: -0.012em;
+  line-height: 1.05;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+.sb-tagline-placeholder {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-bottom: 48px;
+  line-height: 1.45;
+}
+.sb-nav-wrap {
+  background: var(--cream-3);
+  border-radius: 14px;
+  padding: 18px 14px 14px;
+  margin-bottom: 56px;
+  position: relative;
+}
+.sb-nav-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 0 4px 14px;
+  display: block;
+}
+.sb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.sb-link {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 14px;
+  text-decoration: none;
+  color: var(--ink-2);
+  border-radius: 10px;
+  transition: background 0.45s cubic-bezier(0.22,1,0.36,1),
+              color 0.4s cubic-bezier(0.22,1,0.36,1),
+              padding 0.4s;
+  position: relative;
+}
+.sb-link .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  transition: color 0.4s;
+  width: 18px;
+}
+.sb-link .label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  flex: 1;
+}
+.sb-link:hover { background: rgba(0,0,0,0.04); }
+.sb-link.active {
+  background: var(--honey);
+  color: var(--ink);
+}
+.sb-link.active .num { color: var(--honey-darker); }
 
-  .flip-card:hover { animation-play-state: paused; }
-  .flip-card:hover .flip-inner { transform: rotateY(180deg); }
+.sb-find {
+  margin-top: auto;
+  padding-bottom: 24px;
+}
+.sb-find-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 12px;
+}
+.sb-find-list {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.sb-find-list a {
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, color 0.3s;
+}
+.sb-find-list a:hover {
+  border-bottom-color: var(--sage-darker);
+  color: var(--sage-darker);
+}
 
-  .nav-item:hover { background: rgba(45,74,62,0.08) !important; padding-left: 16px !important; }
-  .nav-item:hover .nav-arrow { color: #2D4A3E !important; transform: translateX(2px); }
-  .nav-item.active { background: rgba(45,74,62,0.12) !important; color: #1A1A1A !important; }
-  .nav-item.active .nav-arrow { color: #2D4A3E !important; }
-  .door-item:hover { background: rgba(181,121,126,0.10) !important; }
-  .door-item:hover .nav-arrow { color: #B5797E !important; }
+.sb-status {
+  background: var(--cream-2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 18px;
+  position: relative;
+  min-height: 76px;
+}
+.sb-status-pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sb-status-pre::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pink-deep);
+  animation: status-pulse 2.5s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+.sb-status-msg {
+  transition: opacity 0.5s;
+  min-height: 36px;
+}
 
-  .contact-link:hover { border-bottom-color: #2D4A3E !important; color: #2D4A3E !important; }
-  .bio-link:hover { border-bottom-color: #2D4A3E !important; border-bottom-width: 2px !important; color: #2D4A3E !important; }
+/* ============ MAIN ============ */
+main {
+  padding: 56px 72px 120px 72px;
+  max-width: 1080px;
+  position: relative;
+}
+.topbar {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 64px;
+}
 
-  .hero-polaroid { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); cursor: pointer; }
-  .hero-polaroid:hover { transform: rotate(0deg) scale(1.06) translateY(-6px) !important; z-index: 10; box-shadow: 0 12px 32px rgba(0,0,0,0.15) !important; }
+/* ============ SECTION COMMON ============ */
+.section {
+  margin-bottom: 140px;
+  scroll-margin-top: 48px;
+}
+.section-head {
+  margin-bottom: 36px;
+}
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.section-title {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  margin-bottom: 16px;
+  max-width: 760px;
+}
+.section-summary {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 660px;
+}
 
-  .visitor-card:hover { background: rgba(45,74,62,0.12) !important; transform: translateY(-1px); }
+/* ============ ABOUT ME (SECTION 01) ============ */
+.about-tagline {
+  font-family: 'Lora', serif;
+  font-size: 26px;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0.003em;
+  color: var(--ink);
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+.about-tagline em {
+  font-style: italic;
+  color: var(--sage-darker);
+}
+.about-tagline .placeholder {
+  background: var(--cream-2);
+  border-radius: 6px;
+  padding: 1px 8px;
+  color: var(--ink-3);
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.hero-photos {
+  position: relative;
+  height: 420px;
+  margin-top: 24px;
+  width: 100%;
+  min-width: 920px;
+}
+.h-photo {
+  position: absolute;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+  overflow: hidden;
+  cursor: none;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1),
+              filter 0.5s,
+              box-shadow 0.5s,
+              z-index 0s;
+  animation: floaty-slow 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite;
+}
+@keyframes floaty-slow {
+  0%, 100% { transform: var(--r,rotate(0deg)) translateY(0); }
+  50%      { transform: var(--r,rotate(0deg)) translateY(-12px); }
+}
+.h-photo.p1 {
+  --r: rotate(-6deg);
+  width: 280px; height: 340px;
+  top: 36px; left: 0;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
+  transform: rotate(-6deg);
+  z-index: 2;
+  animation-delay: 0s;
+}
+.h-photo.p2 {
+  --r: rotate(4deg);
+  width: 320px; height: 240px;
+  top: 0; left: 270px;
+  background: linear-gradient(135deg, var(--powder) 0%, var(--powder-deep) 100%);
+  transform: rotate(4deg);
+  z-index: 1;
+  animation-delay: 1.2s;
+}
+.h-photo.p3 {
+  --r: rotate(-3deg);
+  width: 240px; height: 290px;
+  top: 70px; left: 600px;
+  background: linear-gradient(135deg, var(--peach) 0%, var(--peach-deep) 100%);
+  transform: rotate(-3deg);
+  z-index: 3;
+  animation-delay: 2.4s;
+}
+.h-photo.p4 {
+  --r: rotate(8deg);
+  width: 200px; height: 200px;
+  top: 220px; left: 320px;
+  background: linear-gradient(135deg, var(--honey) 0%, var(--honey-deep) 100%);
+  transform: rotate(8deg);
+  z-index: 2;
+  animation-delay: 3.6s;
+}
+.hero-photos:hover .h-photo {
+  filter: saturate(0.5) brightness(0.94);
+}
+.hero-photos .h-photo:hover {
+  filter: none !important;
+  transform: rotate(0deg) scale(1.04) translateY(-12px) !important;
+  z-index: 10 !important;
+  box-shadow: 0 28px 56px rgba(0,0,0,0.16);
+  animation-play-state: paused;
+}
+.h-decor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 16px;
+}
+.h-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: rgba(26,26,26,0.86);
+  color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  text-align: center;
+}
+.h-photo:hover .h-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ BUILDS (SECTION 02) ============ */
+.builds-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.build-card {
+  background: var(--paper);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  /* float and hover lifted to outer .sticky */
+}
+.build-stage {
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.build-stage.baddie { background: linear-gradient(135deg, var(--pink) 0%, var(--peach) 100%); }
+.build-stage.digest { background: linear-gradient(135deg, var(--lilac) 0%, var(--powder) 100%); }
+.build-meta {
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.build-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.build-no {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tag.in-prog { background: rgba(216,160,166,0.28); color: var(--pink-darker); }
+.tag.shipped { background: rgba(184,168,204,0.32); color: var(--lilac-deep); }
+.build-name {
+  font-family: 'Lora', serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+}
+.build-dek {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+/* phone mock inside build */
+.phone-frame {
+  background: #1A1A1A;
+  border-radius: 26px;
+  padding: 6px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+  z-index: 2;
+  position: relative;
+}
+.phone-frame.lg { width: 158px; height: 290px; }
+.phone-frame.md { width: 140px; height: 250px; }
+.phone-screen {
+  background: var(--cream);
+  width: 100%;
+  height: 100%;
+  border-radius: 21px;
+  padding: 14px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+.ph-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  text-align: center;
+}
+.ph-title {
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1;
+  margin-top: 2px;
+}
+.ph-meta { font-size: 9px; color: var(--ink-3); margin-bottom: 4px; }
+.ph-card {
+  background: var(--cream-2);
+  border-radius: 7px;
+  padding: 7px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.ph-thumb { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; }
+.ph-card-text .a { font-size: 9px; font-weight: 500; color: var(--ink); }
+.ph-card-text .b { font-size: 8px; color: var(--ink-3); }
+.ph-cta {
+  margin-top: auto;
+  text-align: center;
+  padding: 8px;
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 500;
+}
+.motif {
+  position: absolute;
+  animation: motif-drift 9s cubic-bezier(0.45,0.05,0.55,0.95) infinite;
+}
+@keyframes motif-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(6deg); }
+}
+
+/* ============ ANALYTICS PROJECTS (SECTION 03) ============ */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 28px;
+}
+.proj-card {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 22px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 240px;
+  /* outer .sticky handles float, hover, tilt */
+}
+.proj-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.proj-title {
+  font-family: 'Lora', serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -0.003em;
+}
+.proj-why {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  flex: 1;
+}
+.proj-stack {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.proj-stack .pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--cream-2);
+  color: var(--ink-2);
+  letter-spacing: 0.04em;
+}
+.proj-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--sage-darker);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sage-darker);
+  align-self: flex-start;
+  padding-bottom: 1px;
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+
+/* ============ STICKY NOTE WRAPPER (universal pattern) ============ */
+/* outer: paper backing with gentle tilt, isolated float animation per card */
+/* inner: existing colored scene mounted on top with small paper margin */
+.sticky {
+  background: var(--cream-2);
+  border-radius: 16px;
+  padding: 12px 12px 16px;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.06),
+              0 2px 6px rgba(0,0,0,0.04);
+  cursor: none;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.5s,
+              filter 0.5s;
+  /* tilt and float managed by per-card variants below; hover overrides */
+}
+.sticky.t1 { transform: rotate(-2deg); animation: float-t1 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite; }
+.sticky.t2 { transform: rotate(1.5deg); animation: float-t2 8s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 1.2s; }
+.sticky.t3 { transform: rotate(-1deg); animation: float-t3 7.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 2.4s; }
+.sticky.t4 { transform: rotate(2.5deg); animation: float-t4 8.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 0.6s; }
+@keyframes float-t1 {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50%      { transform: rotate(-2deg) translateY(-10px); }
+}
+@keyframes float-t2 {
+  0%, 100% { transform: rotate(1.5deg) translateY(0); }
+  50%      { transform: rotate(1.5deg) translateY(-12px); }
+}
+@keyframes float-t3 {
+  0%, 100% { transform: rotate(-1deg) translateY(0); }
+  50%      { transform: rotate(-1deg) translateY(-9px); }
+}
+@keyframes float-t4 {
+  0%, 100% { transform: rotate(2.5deg) translateY(0); }
+  50%      { transform: rotate(2.5deg) translateY(-11px); }
+}
+
+/* on hover: this card straightens, lifts, breaks the float */
+.sticky:hover {
+  transform: rotate(0deg) translateY(-12px) scale(1.012) !important;
+  box-shadow: 0 28px 56px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.05);
+  animation-play-state: paused !important;
+  z-index: 5;
+}
+/* sibling fade — uses a row hover, but only on cards NOT being hovered */
+.sticky-row:hover .sticky:not(:hover) {
+  filter: saturate(0.5) brightness(0.96);
+}
+
+/* ============ CASE STUDY SCENE INNER (mounted on sticky) ============ */
+.scenic-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.scene {
+  background: var(--paper);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  /* No float, no hover transform here. Outer .sticky handles those. */
+}
+.scene-stage {
+  height: 320px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scene-stage.cal-ai { background: linear-gradient(135deg, var(--sage) 0%, #D8E4D2 100%); }
+.scene-stage.hopper { background: linear-gradient(135deg, var(--powder) 0%, #DDE6EE 100%); }
+.scene-stage.hinge { background: linear-gradient(135deg, var(--pink) 0%, #F5DCDF 100%); }
+.scene-stage.duolingo { background: linear-gradient(135deg, var(--honey) 0%, #F5E6C2 100%); }
+
+.scene-meta {
+  padding: 26px 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+.scene-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.scene-no {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.scene-tags { display: flex; gap: 6px; }
+.tag.flagship { background: rgba(148,178,148,0.22); color: var(--sage-darker); }
+.tag.compact { background: rgba(216,160,166,0.22); color: var(--pink-darker); }
+.tag.video-soon { background: rgba(184,168,204,0.32); color: var(--lilac-deep); }
+
+.scene-name {
+  font-family: 'Lora', serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--ink);
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+}
+/* expansion pattern — only the hovered sticky's inner scene-expand reveals */
+.scene-expand {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.55s cubic-bezier(0.22,1,0.36,1),
+              opacity 0.45s ease,
+              margin-top 0.45s;
+}
+.sticky:hover .scene-expand {
+  max-height: 220px;
+  opacity: 1;
+  margin-top: 4px;
+}
+.scene-expand p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-bottom: 6px;
+}
+.scene-expand .read-cue {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 8px;
+}
+
+.logo-slot {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  z-index: 4;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* hinge mini-video mock */
+.video-card .scene-stage { overflow: hidden; }
+.video-mock {
+  width: 168px;
+  height: 296px;
+  background: #1A1A1A;
+  border-radius: 26px;
+  padding: 5px;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18);
+  z-index: 2;
+  position: relative;
+}
+.vid-screen {
+  background: linear-gradient(180deg, var(--pink-deep) 0%, var(--pink) 100%);
+  width: 100%;
+  height: 100%;
+  border-radius: 21px;
+  position: relative;
+  overflow: hidden;
+}
+.video-pill {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26,26,26,0.78);
+  color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.video-pill::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--pink-deep);
+  border-radius: 50%;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+.profile-card-1, .profile-card-2 {
+  position: absolute;
+  width: 80%;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+}
+.profile-card-1 {
+  top: 32px;
+  left: 10%;
+  animation: hinge-swipe-1 4.5s ease-in-out infinite;
+}
+.profile-card-2 {
+  top: 60px;
+  left: 10%;
+  z-index: -1;
+  animation: hinge-swipe-2 4.5s ease-in-out infinite;
+}
+@keyframes hinge-swipe-1 {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+  35%  { transform: translateX(80px) rotate(14deg); opacity: 0; }
+  36%, 100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+}
+@keyframes hinge-swipe-2 {
+  0%, 35%   { top: 60px; }
+  36%, 100% { top: 32px; }
+}
+.profile-photo {
+  width: 100%;
+  height: 92px;
+  background: linear-gradient(135deg, var(--peach), var(--peach-deep));
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+.profile-card-2 .profile-photo {
+  background: linear-gradient(135deg, var(--lilac), var(--lilac-deep));
+}
+.profile-name { font-family: 'Lora', serif; font-size: 11px; color: var(--ink); }
+.profile-meta { font-size: 8px; color: var(--ink-3); }
+
+/* duolingo placeholder mini */
+.duo-mock {
+  width: 158px;
+  height: 290px;
+  background: #1A1A1A;
+  border-radius: 26px;
+  padding: 6px;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.18);
+  z-index: 2;
+  position: relative;
+}
+.duo-screen {
+  background: var(--cream);
+  width: 100%;
+  height: 100%;
+  border-radius: 21px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.duo-progress {
+  height: 10px;
+  background: var(--cream-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.duo-progress-fill {
+  height: 100%;
+  background: var(--honey-deep);
+  width: 65%;
+  border-radius: 999px;
+}
+.duo-q {
+  background: var(--cream-2);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: 'Lora', serif;
+  font-size: 11px;
+  color: var(--ink);
+  text-align: center;
+  margin-top: 8px;
+}
+.duo-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.duo-opt {
+  background: var(--cream-2);
+  border-radius: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 500;
+}
+.duo-opt.correct { background: var(--honey); }
+
+/* hopper motifs */
+.motif.plane { animation: plane-drift 11s linear infinite; }
+@keyframes plane-drift {
+  0%   { transform: translateX(-20px) translateY(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.8; }
+  100% { transform: translateX(40px) translateY(-6px); opacity: 0; }
+}
+
+/* ============ READING LIST (SECTION 05) ============ */
+.books-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  padding: 32px 4px;
+}
+.book {
+  perspective: 1400px;
+  height: 320px;
+  cursor: none;
+  animation: floaty-slow 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite;
+}
+.book.b1 { animation-delay: 0s; transform: rotate(-1.5deg); }
+.book.b2 { animation-delay: 1.5s; transform: rotate(1deg); }
+.book.b3 { animation-delay: 3s; transform: rotate(-0.5deg); }
+.book.b4 { animation-delay: 4.5s; transform: rotate(2deg); }
+.book-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.books-row:hover .book { filter: saturate(0.5) brightness(0.95); }
+.books-row .book:hover { filter: none !important; }
+.books-row .book:hover .book-inner { transform: rotateY(180deg); }
+.book-face {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 4px 8px 8px 4px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 7px 9px 26px rgba(0,0,0,0.14);
+}
+.book-front {
+  box-shadow: inset 4px 0 0 rgba(0,0,0,0.12), 7px 9px 26px rgba(0,0,0,0.14);
+}
+.book-back {
+  background: var(--cream);
+  transform: rotateY(180deg);
+}
+.book.b1 .book-front { background: var(--sage); color: var(--ink); }
+.book.b2 .book-front { background: var(--pink); color: var(--ink); }
+.book.b3 .book-front { background: var(--powder); color: var(--ink); }
+.book.b4 .book-front { background: var(--honey); color: var(--ink); }
+.book-genre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.book-title {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.002em;
+}
+.book-author {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.78;
+  margin-top: 6px;
+}
+.book-opinion {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  font-style: italic;
+}
+.book-back-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ============ FIELD NOTES (SECTION 06) ============ */
+.notes-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  max-width: 880px;
+}
+.note-strip {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 26px;
+  cursor: none;
+  transition: all 0.4s cubic-bezier(0.22,1,0.36,1),
+              filter 0.4s;
+}
+.notes-row:hover .note-strip { filter: saturate(0.55) brightness(0.96); }
+.notes-row .note-strip:hover {
+  filter: none !important;
+  border-color: var(--sage-deep);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(148,178,148,0.16);
+}
+.note-topic {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--sage-darker);
+}
+.note-quote {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* ============ PLACEHOLDER STUB ============ */
+.placeholder-stub {
+  background: var(--cream-2);
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  padding: 36px 44px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  cursor: none;
+  transition: border-color 0.4s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.placeholder-stub:hover {
+  border-color: var(--sage-deep);
+  transform: translateY(-2px);
+}
+.stub-pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.stub-body {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-2);
+  flex: 1;
+}
+.stub-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sage-deep);
+  animation: stub-pulse 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes stub-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ============ ABOUT ME SUB-SECTIONS ============ */
+.about-subhead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 80px 0 24px;
+  display: inline-block;
+}
+
+/* communities — 3 square cards on sticky-note backings */
+.communities-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 32px;
+}
+.comm-card {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 22px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  aspect-ratio: 1;
+  /* outer .sticky handles float, hover, tilt */
+}
+.comm-icon {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  font-family: 'Lora', serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+.comm-card.c1 .comm-icon { background: rgba(184,207,183,0.40); color: var(--sage-darker); }
+.comm-card.c2 .comm-icon { background: rgba(242,201,205,0.50); color: var(--pink-darker); }
+.comm-card.c3 .comm-icon { background: rgba(200,214,226,0.55); color: var(--powder-darker); }
+.comm-name {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--ink);
+  font-weight: 500;
+}
+.comm-body {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  flex: 1;
+}
+
+/* ============ FIREFLY (BOTTOM EDGE, FULL WIDTH) ============ */
+.firefly {
+  position: fixed;
+  width: 52px;
+  height: 42px;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 60;
+  animation: firefly-path 38s cubic-bezier(0.45,0.05,0.55,0.95) infinite;
+}
+/* Path is along bottom edge only, full width of viewport */
+@keyframes firefly-path {
+  0%   { left: 6vw;  bottom: 18px; top: auto; }
+  10%  { left: 14vw; bottom: 32px; top: auto; }
+  20%  { left: 26vw; bottom: 14px; top: auto; }
+  30%  { left: 38vw; bottom: 28px; top: auto; }
+  40%  { left: 50vw; bottom: 18px; top: auto; }
+  50%  { left: 62vw; bottom: 36px; top: auto; }
+  60%  { left: 74vw; bottom: 14px; top: auto; }
+  70%  { left: 86vw; bottom: 24px; top: auto; }
+  80%  { left: 78vw; bottom: 30px; top: auto; }
+  90%  { left: 60vw; bottom: 16px; top: auto; }
+  100% { left: 6vw;  bottom: 18px; top: auto; }
+}
+.firefly svg { display: block; pointer-events: none; }
+.firefly .glow {
+  filter: drop-shadow(0 0 9px rgba(242,206,116,0.85))
+          drop-shadow(0 0 20px rgba(232,177,75,0.55));
+  animation: firefly-glow 2.6s ease-in-out infinite;
+}
+@keyframes firefly-glow {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+/* Speech bubble — small, yellow background, brown text, sits above the firefly */
+.firefly-msg {
+  position: fixed;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--honey);
+  color: var(--honey-darker);
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--honey-deep);
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+  max-width: 220px;
+  line-height: 1.35;
+  z-index: 70;
+  box-shadow: 0 6px 18px rgba(212,185,126,0.30);
+  white-space: normal;
+  text-align: center;
+  transform: translateY(4px);
+}
+.firefly-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.firefly-msg::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: var(--honey);
+  border-right: 1px solid var(--honey-deep);
+  border-bottom: 1px solid var(--honey-deep);
+}
+
+/* ============ MOBILE ============ */
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  aside.sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  main { padding: 32px 24px; }
+  .firefly { display: none; }
+  html { cursor: auto; }
+  .cursor-dot { display: none; }
+  a, button, [data-cursor] { cursor: pointer; }
+  .hero-photos { height: auto; display: flex; flex-wrap: wrap; gap: 16px; }
+  .h-photo { position: static; width: 100% !important; max-width: 280px; height: 240px !important; transform: none !important; }
+  .builds-grid, .scenic-row, .notes-row { grid-template-columns: 1fr; }
+  .analytics-grid { grid-template-columns: 1fr; }
+  .books-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============ INTRO BANNER ============ */
+.intro-banner {
+  background: var(--cream-2);
+  border-left: 3px solid var(--sage-darker);
+  padding: 26px 32px;
+  border-radius: 0 12px 12px 0;
+  max-width: 760px;
+  margin-bottom: 80px;
+  margin-top: 8px;
+}
+.intro-banner h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sage-darker);
+  margin-bottom: 12px;
+}
+.intro-banner p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
 
-<div class="reference-banner">
-  <strong>DESIGN REFERENCE</strong> &nbsp;·&nbsp; v6 homepage &nbsp;·&nbsp; recreate this in Next.js components &nbsp;·&nbsp; uses placeholder fonts (Instrument Serif / Lora are interchangeable here)
-</div>
+<div class="cursor-dot" id="cursor"></div>
 
-<div id="page-root" style="position: relative; color: #1A1A1A; font-family: 'Inter', -apple-system, sans-serif; min-height: 3400px; background: #FAFAF7;">
+<div class="firefly" id="firefly">
+  <svg width="52" height="42" viewBox="0 0 40 32" fill="none">
+    <ellipse cx="14" cy="16" rx="7.5" ry="4.5" fill="#E0DCCF" opacity="0.65"/>
+    <ellipse cx="14" cy="22" rx="6.5" ry="3.5" fill="#E0DCCF" opacity="0.55"/>
+    <ellipse cx="27" cy="16" rx="7" ry="4" fill="#E0DCCF" opacity="0.65"/>
+    <ellipse cx="27" cy="22" rx="6" ry="3.2" fill="#E0DCCF" opacity="0.55"/>
+    <ellipse cx="20" cy="18" rx="7.5" ry="6" fill="#3B3B3B"/>
+    <ellipse class="glow" cx="28" cy="20" rx="5" ry="3.8" fill="#F2D67A"/>
+    <line x1="20" y1="13" x2="17" y2="6" stroke="#3B3B3B" stroke-width="0.8"/>
+    <line x1="20" y1="13" x2="23" y2="6" stroke="#3B3B3B" stroke-width="0.8"/>
+    <circle cx="17" cy="6" r="1.1" fill="#3B3B3B"/>
+    <circle cx="23" cy="6" r="1.1" fill="#3B3B3B"/>
+  </svg>
+</div>
+<div class="firefly-msg" id="firefly-msg"></div>
 
-<div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.35; z-index: 0; background-image: radial-gradient(circle at 1px 1px, rgba(45,74,62,0.08) 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="layout">
 
-<div style="position: relative; z-index: 1; display: grid; grid-template-columns: 290px 1fr; gap: 0;">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sb-name">Aana Khanduri</div>
+    <div class="sb-tagline-placeholder">[ a tagline you'll add — your own ]</div>
 
-<aside style="border-right: 1px solid #E5E3DD; padding: 32px 26px; position: sticky; top: 32px; align-self: start; height: 100vh; max-height: 3400px; display: flex; flex-direction: column; overflow: hidden; background: #FAFAF7;">
+    <div class="sb-nav-wrap">
+      <span class="sb-nav-label">explore</span>
+      <nav class="sb-nav">
+        <a href="#about" class="sb-link" data-cursor data-cursor-text="jump"><span class="num">01</span><span class="label">About me</span></a>
+        <a href="#builds" class="sb-link" data-cursor data-cursor-text="jump"><span class="num">02</span><span class="label">Builds</span></a>
+        <a href="#analytics" class="sb-link" data-cursor data-cursor-text="jump"><span class="num">03</span><span class="label">Analytics projects</span></a>
+        <a href="#case-studies" class="sb-link" data-cursor data-cursor-text="jump"><span class="num">04</span><span class="label">Case studies</span></a>
+      </nav>
+    </div>
 
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 28px;">
-<svg width="22" height="22" viewBox="0 0 22 22" style="flex-shrink: 0;">
-<circle cx="11" cy="11" r="3" fill="#2D4A3E"/>
-<circle cx="3" cy="11" r="1.5" fill="#B5797E"/>
-<circle cx="19" cy="11" r="1.5" fill="#B8821F"/>
-<circle cx="11" cy="3" r="1.5" fill="#1D2A44"/>
-<circle cx="11" cy="19" r="1.5" fill="#2D4A3E" opacity="0.5"/>
-<animateTransform attributeName="transform" type="rotate" from="0 11 11" to="360 11 11" dur="32s" repeatCount="indefinite"/>
-</svg>
-<div style="font-family: 'Lora', serif; font-size: 16px; color: #2D4A3E; font-style: italic;">ak.</div>
-</div>
+    <div class="sb-find">
+      <div class="sb-find-label">find me at</div>
+      <div class="sb-find-list">
+        <a href="#" data-cursor data-cursor-text="email">email</a>
+        <a href="#" data-cursor data-cursor-text="linkedin">linkedin</a>
+        <a href="#" data-cursor data-cursor-text="github">github</a>
+      </div>
+    </div>
 
-<h1 style="font-family: 'Lora', serif; font-weight: 400; font-size: 36px; line-height: 1; letter-spacing: -0.01em; margin: 0 0 6px;">Aana Khanduri</h1>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 26px;">product analyst · ms cs</div>
+    <div class="sb-status">
+      <div class="sb-status-pre">currently working on</div>
+      <div class="sb-status-msg" id="status-msg">writing the cal ai case study</div>
+    </div>
+  </aside>
 
-<p style="font-size: 13px; line-height: 1.6; color: #444441; margin: 0 0 28px;">I work at the seam between data and decisions. Strategy first, then the data, then I ship something a team can act on.</p>
+  <!-- ============ MAIN ============ -->
+  <main>
 
-<nav style="margin-bottom: 22px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">explore</div>
-<div style="background: #EDE9DE; border-radius: 8px; padding: 6px;" id="nav-list">
-<a href="#case-studies" data-section="case-studies" class="nav-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>01. case studies</span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-<a href="#analytics" data-section="analytics" class="nav-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>02. analytics</span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-<a href="#builds" data-section="builds" class="nav-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>03. builds</span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-<a href="#reading" data-section="reading" class="nav-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>04. reading list</span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-<a href="#field-notes" data-section="field-notes" class="nav-item door-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>05. field notes <span style="color: #B5797E; font-size: 9px; margin-left: 4px;">⌖</span></span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-<a href="#about" data-section="about" class="nav-item" style="display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #444441; text-decoration: none; border-radius: 6px; transition: all 0.25s;"><span>06. about me</span><span class="nav-arrow" style="color: #888780; transition: transform 0.25s;">→</span></a>
-</div>
-</nav>
+    <div class="topbar">
+      <span>field notebook · vol. i · v7 grid v6</span>
+      <span id="topbar-date">homepage layout · full</span>
+    </div>
 
-<div style="margin-top: auto;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">find me at</div>
-<div style="font-size: 13px; line-height: 1.7; margin-bottom: 22px;">
-<a href="#" class="contact-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1px solid #E5E3DD; padding-bottom: 1px; display: inline-block; margin-right: 10px; transition: all 0.25s;">email</a>
-<a href="#" class="contact-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1px solid #E5E3DD; padding-bottom: 1px; display: inline-block; margin-right: 10px; transition: all 0.25s;">linkedin</a>
-<a href="#" class="contact-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1px solid #E5E3DD; padding-bottom: 1px; display: inline-block; transition: all 0.25s;">github</a>
-</div>
+    <div class="intro-banner">
+      <h3>how to react to v6</h3>
+      <p>Sidebar is now <strong>warmer (cream-2)</strong> with the nav links sitting in a <strong>nested cream-3 panel</strong>, like Megan's Explore block. Active section highlights in honey-pastel for clearer scroll-spy feedback.</p>
+      <p>The <strong>firefly is bigger</strong> and now flies along the <strong>bottom edge of the entire viewport</strong> — full width, low altitude. Click it. Bubble pops up above.</p>
+      <p>Separately delivered: the <strong>entry page</strong> (entry_page_v1.html) — pure black, animated star field, "shall we?" CTA, white glowing cursor. That's the front door before /home.</p>
+    </div>
 
-<div id="status-rotator" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; min-height: 64px; transition: background 0.4s;">
-<div id="status-label" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #B5797E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; transition: color 0.5s;">/ working on</div>
-<div id="status-text" style="font-size: 12px; line-height: 1.45; color: #1A1A1A; transition: opacity 0.4s;">finishing the cal ai case study</div>
-</div>
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <div class="section-head">
+        <span class="section-num">01 — about me</span>
+      </div>
 
-<div class="visitor-card" id="visitor-card" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; background: rgba(45,74,62,0.06); border: 1px solid rgba(45,74,62,0.15); border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #2D4A3E; cursor: pointer; transition: all 0.25s; align-self: start; margin-bottom: 14px;">
-<span style="width: 6px; height: 6px; border-radius: 50%; background: #2D4A3E; animation: pulse 2.5s infinite;"></span>
-<span id="visitor-card-text">leave a trace ↗</span>
-</div>
+      <p class="about-tagline">
+        <em>Master's in CS, working as a product analyst, currently in San Francisco.</em>
+        I read the strategy first, then the data. Most days are some mix of writing case studies, building tools I want to exist, and asking whether the question we're trying to answer is actually the right one.
+      </p>
 
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B6B6B;">
-<div id="live-clock" style="color: #1A1A1A;">2:14:32 PM</div>
-<div style="color: #888780; text-transform: uppercase; letter-spacing: 0.05em; font-size: 9px; margin-top: 4px;">san francisco</div>
-</div>
-</div>
-</aside>
+      <div class="hero-photos">
+        <div class="h-photo p1" data-cursor data-cursor-text="hello">
+          <div class="h-decor">[ photo of you ]</div>
+          <div class="h-caption">somewhere · 2026</div>
+        </div>
+        <div class="h-photo p2" data-cursor data-cursor-text="east village">
+          <div class="h-decor">[ NYC ]</div>
+          <div class="h-caption">east village winter</div>
+        </div>
+        <div class="h-photo p3" data-cursor data-cursor-text="mission">
+          <div class="h-decor">[ SF ]</div>
+          <div class="h-caption">mission · golden hour</div>
+        </div>
+        <div class="h-photo p4" data-cursor data-cursor-text="lift">
+          <div class="h-decor">[ gym ]</div>
+          <div class="h-caption">progressive overload</div>
+        </div>
+      </div>
 
-<main style="padding: 48px 56px 80px; max-width: 920px; position: relative;">
+      <!-- communities sub-block -->
+      <div class="about-subhead">communities I'm part of</div>
+      <div class="communities-row sticky-row">
 
-<div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid #E5E3DD; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 56px;">
-<span>entry 01 · home</span>
-<span id="lab-date">28 nov 2026 · field notebook vol. i</span>
-</div>
+        <div class="sticky t1" data-cursor data-cursor-text="learn more">
+          <div class="comm-card c1">
+            <div class="comm-icon">⊕</div>
+            <div class="comm-name">[ community 01 ]</div>
+            <div class="comm-body">[ a few sentences on what you do here, what you've learned, what you contribute. keep it personal. ]</div>
+          </div>
+        </div>
 
-<section style="margin-bottom: 96px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 48px; align-items: start;">
+        <div class="sticky t2" data-cursor data-cursor-text="learn more">
+          <div class="comm-card c2">
+            <div class="comm-icon">◇</div>
+            <div class="comm-name">[ community 02 ]</div>
+            <div class="comm-body">[ a few sentences on what you do here, what you've learned, what you contribute. keep it personal. ]</div>
+          </div>
+        </div>
 
-<div>
-<h2 style="font-family: 'Lora', serif; font-weight: 400; font-size: 60px; line-height: 1.02; letter-spacing: -0.015em; margin: 0 0 22px;">Hi, I'm <span style="font-style: italic; color: #2D4A3E;">Aana</span>.</h2>
-<p style="font-family: 'Lora', serif; font-size: 22px; line-height: 1.45; color: #1A1A1A; margin: 0 0 18px;">I read the strategy first, then the data, then I ship something a team can act on.</p>
-<p style="font-size: 15px; line-height: 1.7; color: #444441; margin: 0 0 24px; max-width: 520px;">Master's in CS, working as a product analyst. Most recently at <a href="#" class="bio-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1.5px solid #B5797E; padding-bottom: 1px; transition: all 0.2s;">@yourcompany</a>. Previously <a href="#" class="bio-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1.5px solid #B5797E; padding-bottom: 1px; transition: all 0.2s;">@another</a> and <a href="#" class="bio-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1.5px solid #B5797E; padding-bottom: 1px; transition: all 0.2s;">@third</a>. Lived in <a href="#" class="bio-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1.5px solid #B5797E; padding-bottom: 1px; transition: all 0.2s;">New York</a>, now in <a href="#" class="bio-link" style="color: #1A1A1A; text-decoration: none; border-bottom: 1.5px solid #B5797E; padding-bottom: 1px; transition: all 0.2s;">San Francisco</a>.</p>
-<div style="display: flex; gap: 24px; font-family: 'JetBrains Mono', monospace; font-size: 13px; margin-top: 28px;">
-<a href="#case-studies" style="color: #2D4A3E; text-decoration: none; border-bottom: 1px solid #2D4A3E; padding-bottom: 2px;">→ see the work</a>
-<a href="#about" style="color: #2D4A3E; text-decoration: none; border-bottom: 1px solid #2D4A3E; padding-bottom: 2px;">→ about</a>
-</div>
-</div>
+        <div class="sticky t3" data-cursor data-cursor-text="learn more">
+          <div class="comm-card c3">
+            <div class="comm-icon">◐</div>
+            <div class="comm-name">[ community 03 ]</div>
+            <div class="comm-body">[ a few sentences on what you do here, what you've learned, what you contribute. keep it personal. ]</div>
+          </div>
+        </div>
 
-<div style="position: relative; height: 380px;">
-<div class="hero-polaroid polaroid-hero-1" style="position: absolute; top: 0; left: 30px; width: 180px; background: #FAFAF7; padding: 12px 12px 36px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: rotate(-6deg); animation: pdrift1 7s ease-in-out infinite;">
-<div style="background: linear-gradient(135deg, #2D4A3E 0%, #4A6B5E 100%); width: 100%; height: 200px; border-radius: 2px; display: flex; align-items: center; justify-content: center;">
-<div style="text-align: center; color: rgba(255,255,255,0.5); font-family: 'Lora', serif; font-style: italic; font-size: 13px;">your photo</div>
-</div>
-<div style="position: absolute; bottom: 12px; left: 12px; right: 12px; font-family: 'Caveat', cursive; font-size: 16px; color: #2D4A3E; text-align: center;">somewhere in '26</div>
-</div>
+      </div>
 
-<div class="hero-polaroid polaroid-hero-2" style="position: absolute; top: 50px; left: 180px; width: 170px; background: #FAFAF7; padding: 12px 12px 36px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: rotate(5deg); animation: pdrift2 7s ease-in-out infinite 0.8s;">
-<div style="background: linear-gradient(135deg, #1D2A44 0%, #3D4A6E 100%); width: 100%; height: 190px; border-radius: 2px; position: relative; overflow: hidden;">
-<svg viewBox="0 0 170 190" preserveAspectRatio="none" style="position: absolute; inset: 0;">
-<rect x="0" y="120" width="170" height="70" fill="rgba(255,255,255,0.06)"/>
-<rect x="20" y="80" width="14" height="40" fill="rgba(255,255,255,0.12)"/>
-<rect x="40" y="60" width="14" height="60" fill="rgba(255,255,255,0.14)"/>
-<rect x="60" y="70" width="14" height="50" fill="rgba(255,255,255,0.10)"/>
-<rect x="80" y="50" width="14" height="70" fill="rgba(255,255,255,0.16)"/>
-<rect x="100" y="65" width="14" height="55" fill="rgba(255,255,255,0.12)"/>
-<rect x="120" y="75" width="14" height="45" fill="rgba(255,255,255,0.10)"/>
-<rect x="140" y="55" width="14" height="65" fill="rgba(255,255,255,0.14)"/>
-<circle cx="40" cy="40" r="2" fill="rgba(255,255,255,0.4)"/>
-<circle cx="100" cy="30" r="1.5" fill="rgba(255,255,255,0.3)"/>
-<circle cx="140" cy="45" r="1" fill="rgba(255,255,255,0.4)"/>
-</svg>
-</div>
-<div style="position: absolute; bottom: 12px; left: 12px; right: 12px; font-family: 'Caveat', cursive; font-size: 16px; color: #1D2A44; text-align: center;">east village</div>
-</div>
+      <!-- reading list inside about me -->
+      <div class="about-subhead">on my reading list</div>
+      <div class="books-row">
 
-<div class="hero-polaroid polaroid-hero-3" style="position: absolute; top: 180px; left: 80px; width: 175px; background: #FAFAF7; padding: 12px 12px 36px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: rotate(-3deg); animation: pdrift3 7s ease-in-out infinite 1.6s;">
-<div style="background: linear-gradient(135deg, #B8821F 0%, #6B4810 100%); width: 100%; height: 195px; border-radius: 2px; position: relative; overflow: hidden;">
-<svg viewBox="0 0 175 195" preserveAspectRatio="none" style="position: absolute; inset: 0;">
-<rect x="0" y="140" width="175" height="55" fill="rgba(255,255,255,0.08)"/>
-<path d="M 0 100 Q 30 80 60 90 Q 90 100 120 75 Q 150 50 175 65 L 175 140 L 0 140 Z" fill="rgba(255,255,255,0.06)"/>
-<path d="M 0 130 Q 30 115 60 120 T 175 110 L 175 140 L 0 140 Z" fill="rgba(255,255,255,0.10)"/>
-<circle cx="135" cy="40" r="14" fill="rgba(255,255,255,0.3)"/>
-</svg>
-</div>
-<div style="position: absolute; bottom: 12px; left: 12px; right: 12px; font-family: 'Caveat', cursive; font-size: 16px; color: #6B4810; text-align: center;">mission, golden hour</div>
-</div>
+        <div class="book b1" data-cursor data-cursor-text="flip">
+          <div class="book-inner">
+            <div class="book-face book-front">
+              <div class="book-genre">non-fiction</div>
+              <div>
+                <div class="book-title">Trustworthy Online Controlled Experiments</div>
+                <div class="book-author">Kohavi, Tang, Xu</div>
+              </div>
+            </div>
+            <div class="book-face book-back">
+              <p class="book-opinion">"The book that taught me most A/B test results aren't telling you what you think they are."</p>
+              <div class="book-back-meta">flip back ↻</div>
+            </div>
+          </div>
+        </div>
 
-</div>
-</section>
+        <div class="book b2" data-cursor data-cursor-text="flip">
+          <div class="book-inner">
+            <div class="book-face book-front">
+              <div class="book-genre">non-fiction</div>
+              <div>
+                <div class="book-title">Lean Analytics</div>
+                <div class="book-author">Croll & Yoskovitz</div>
+              </div>
+            </div>
+            <div class="book-face book-back">
+              <p class="book-opinion">"One metric that matters. The most useful framework an early-stage analyst can have."</p>
+              <div class="book-back-meta">flip back ↻</div>
+            </div>
+          </div>
+        </div>
 
-<section id="case-studies" data-watch style="position: relative; margin: 0 -56px 96px; padding: 64px 56px; background: linear-gradient(180deg, transparent 0%, rgba(45,74,62,0.04) 30%, rgba(45,74,62,0.04) 70%, transparent 100%); scroll-margin-top: 60px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #2D4A3E; letter-spacing: 0.08em; text-transform: uppercase;">01 — case studies</div>
-<div style="flex: 1; height: 1px; background: rgba(45,74,62,0.2);"></div>
-<a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2D4A3E; text-decoration: none;">all 6 →</a>
-</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 18px; line-height: 1.45; color: #444441; max-width: 580px; margin: 0 0 36px;">How I think about consumer products. Each one starts with the strategy and ends with a recommendation.</p>
+        <div class="book b3" data-cursor data-cursor-text="flip">
+          <div class="book-inner">
+            <div class="book-face book-front">
+              <div class="book-genre">[ genre ]</div>
+              <div>
+                <div class="book-title">[ swap with your real third book ]</div>
+                <div class="book-author">[ author ]</div>
+              </div>
+            </div>
+            <div class="book-face book-back">
+              <p class="book-opinion">[ your one-sentence opinion ]</p>
+              <div class="book-back-meta">flip back ↻</div>
+            </div>
+          </div>
+        </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;">
+        <div class="book b4" data-cursor data-cursor-text="flip">
+          <div class="book-inner">
+            <div class="book-face book-front">
+              <div class="book-genre">[ genre ]</div>
+              <div>
+                <div class="book-title">[ swap with your fourth book ]</div>
+                <div class="book-author">[ author ]</div>
+              </div>
+            </div>
+            <div class="book-face book-back">
+              <p class="book-opinion">[ your one-sentence opinion ]</p>
+              <div class="book-back-meta">flip back ↻</div>
+            </div>
+          </div>
+        </div>
 
-<div class="bloom-card" data-color="#2D4A3E" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid #E5E3DD; position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #2D4A3E 0%, #4A6B5E 50%, #6B8A7B 100%); height: 200px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: padding 0.5s;">
-<div class="bloom-phone" style="width: 95px; height: 165px; background: #1A1A1A; border-radius: 14px; padding: 5px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<div style="background: #FAFAF7; width: 100%; height: 100%; border-radius: 11px; padding: 7px 5px; display: flex; flex-direction: column; gap: 3px;">
-<div style="font-family: 'Lora', serif; font-size: 9px; color: #1A1A1A;">Today</div>
-<div style="font-size: 5px; color: #888780;">1,840 cal</div>
-<div style="background: #EDE9DE; height: 12px; border-radius: 2px;"></div>
-<div style="background: #EDE9DE; height: 12px; border-radius: 2px;"></div>
-<div style="margin-top: auto; background: #2D4A3E; height: 14px; border-radius: 3px;"></div>
-</div>
-</div>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(45,74,62,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 8px 18px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2D4A3E;">view case study →</div>
-</div>
-</div>
-<div style="padding: 18px 20px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 01 · cal ai</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 8px; background: rgba(45,74,62,0.1); color: #2D4A3E; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">flagship</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 21px; line-height: 1.15; margin: 0 0 8px; color: #1A1A1A;">The bottleneck isn't accuracy. It's the third scan.</h3>
-<p style="font-size: 13px; line-height: 1.5; color: #444441; margin: 0;">3-scan activation threshold. Below it, retention drops 64%.</p>
-</div>
-</div>
+      </div>
+    </section>
 
-<div class="bloom-card" data-color="#1D2A44" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid #E5E3DD; position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #1D2A44 0%, #2D3D5E 50%, #4A5A7E 100%); height: 200px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: padding 0.5s;">
-<div class="bloom-phone" style="width: 95px; height: 165px; background: #1A1A1A; border-radius: 14px; padding: 5px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<div style="background: linear-gradient(180deg, #2D3D5E 0%, #1D2A44 100%); width: 100%; height: 100%; border-radius: 11px; padding: 7px 5px; display: flex; flex-direction: column; gap: 3px; color: #FAFAF7;">
-<div style="font-family: 'Lora', serif; font-size: 9px;">SFO → JFK</div>
-<div style="font-size: 5px; color: rgba(255,255,255,0.6);">round trip</div>
-<div style="background: rgba(255,255,255,0.1); height: 14px; border-radius: 2px;"></div>
-<div style="background: rgba(255,255,255,0.1); height: 14px; border-radius: 2px;"></div>
-<div style="margin-top: auto; background: #FAFAF7; height: 14px; border-radius: 3px;"></div>
-</div>
-</div>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(29,42,68,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 8px 18px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #1D2A44;">view case study →</div>
-</div>
-</div>
-<div style="padding: 18px 20px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 02 · hopper</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 8px; background: rgba(29,42,68,0.1); color: #1D2A44; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">flagship</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 21px; line-height: 1.15; margin: 0 0 8px; color: #1A1A1A;">The funnel leaks before users see a price.</h3>
-<p style="font-size: 13px; line-height: 1.5; color: #444441; margin: 0;">42% of intent-stage users abandon. Reframing the funnel changes the model.</p>
-</div>
-</div>
+    <!-- ============ BUILDS ============ -->
+    <section id="builds" class="section">
+      <div class="section-head">
+        <span class="section-num">02 — builds</span>
+        <h2 class="section-title">Things I made because I wanted them to exist.</h2>
+        <p class="section-summary">Two cards. Both in active use. Real screen recordings drop in when I record them.</p>
+      </div>
 
-<div class="bloom-card" data-color="#B5797E" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid #E5E3DD; position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #B5797E 0%, #D4969A 50%, #E8B4B8 100%); height: 200px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: padding 0.5s;">
-<div class="bloom-phone" style="width: 95px; height: 165px; background: #1A1A1A; border-radius: 14px; padding: 5px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<div style="background: #FAFAF7; width: 100%; height: 100%; border-radius: 11px; padding: 7px 5px; display: flex; flex-direction: column; gap: 3px;">
-<div style="background: #B5797E; height: 50px; border-radius: 4px;"></div>
-<div style="display: flex; gap: 2px;">
-<div style="background: #EDE9DE; flex: 1; height: 8px; border-radius: 2px;"></div>
-<div style="background: #EDE9DE; flex: 1; height: 8px; border-radius: 2px;"></div>
-</div>
-<div style="background: rgba(181,121,126,0.15); height: 12px; border-radius: 2px;"></div>
-<div style="margin-top: auto; background: #1A1A1A; height: 14px; border-radius: 3px;"></div>
-</div>
-</div>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(181,121,126,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 8px 18px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A4A4F;">view case study →</div>
-</div>
-</div>
-<div style="padding: 18px 20px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 03 · hinge</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 8px; background: rgba(181,121,126,0.15); color: #8A4A4F; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">compact</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 21px; line-height: 1.15; margin: 0 0 8px; color: #1A1A1A;">"Engagement" is two metrics in a trench coat.</h3>
-<p style="font-size: 13px; line-height: 1.5; color: #444441; margin: 0;">Time-in-app and match success move in opposite directions.</p>
-</div>
-</div>
+      <div class="builds-grid sticky-row">
 
-</div>
-</section>
+        <div class="sticky t1" data-cursor data-cursor-text="view project">
+          <div class="build-card">
+            <div class="build-stage baddie">
+              <div class="motif" style="top: 32px; left: 32px;">
+                <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="6" fill="var(--pink-darker)" opacity="0.30"/></svg>
+              </div>
+              <div class="motif" style="bottom: 36px; right: 30px; animation-delay: 1.5s;">
+                <svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 10 L17 10 M10 3 L10 17" stroke="var(--pink-darker)" stroke-width="2" opacity="0.4"/></svg>
+              </div>
+              <div class="motif" style="top: 30%; right: 22%; animation-delay: 3s;">
+                <svg width="18" height="18" viewBox="0 0 18 18"><rect x="3" y="3" width="12" height="12" rx="2" fill="none" stroke="var(--pink-darker)" stroke-width="1.5" opacity="0.4"/></svg>
+              </div>
+              <div class="phone-frame md">
+                <div class="phone-screen">
+                  <div class="ph-time">9:41</div>
+                  <div class="ph-title">This week</div>
+                  <div class="ph-meta">strength · 3 sessions</div>
+                  <div class="ph-card"><div class="ph-thumb" style="background: var(--pink);"></div><div class="ph-card-text"><div class="a">Glute focus · Mon</div><div class="b">5 sets · 45 min</div></div></div>
+                  <div class="ph-card"><div class="ph-thumb" style="background: var(--pink);"></div><div class="ph-card-text"><div class="a">Pull · Wed</div><div class="b">4 sets · 38 min</div></div></div>
+                  <div class="ph-cta" style="background: var(--pink-darker); color: var(--cream);">log session</div>
+                </div>
+              </div>
+            </div>
+            <div class="build-meta">
+              <div class="build-meta-top">
+                <span class="build-no">no. 01</span>
+                <span class="tag in-prog">in progress</span>
+              </div>
+              <div class="build-name">Baddie in Progress</div>
+              <div class="build-dek">A fitness app that respects how I actually train. Tracks sessions, volume, and progressive overload without the bro-marketing fluff.</div>
+            </div>
+          </div>
+        </div>
 
-<section id="analytics" data-watch style="position: relative; margin: 0 -56px 96px; padding: 64px 56px; background: linear-gradient(180deg, transparent 0%, rgba(184,130,31,0.05) 30%, rgba(184,130,31,0.05) 70%, transparent 100%); scroll-margin-top: 60px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6B4810; letter-spacing: 0.08em; text-transform: uppercase;">02 — analytics</div>
-<div style="flex: 1; height: 1px; background: rgba(184,130,31,0.25);"></div>
-<a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B4810; text-decoration: none;">see all →</a>
-</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 18px; line-height: 1.45; color: #444441; max-width: 580px; margin: 0 0 36px;">How I work with data. SQL, Python, and the occasional rabbit hole.</p>
+        <div class="sticky t2" data-cursor data-cursor-text="view project">
+          <div class="build-card">
+            <div class="build-stage digest">
+              <div class="motif" style="top: 32px; right: 38px;">
+                <svg width="22" height="22" viewBox="0 0 22 22"><rect x="3" y="3" width="16" height="16" rx="3" fill="var(--lilac-deep)" opacity="0.32"/><path d="M7 11 L11 11 M7 8 L15 8" stroke="var(--lilac-deep)" stroke-width="1.2" opacity="0.65"/></svg>
+              </div>
+              <div class="motif" style="bottom: 30px; left: 36px; animation-delay: 1.5s;">
+                <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="none" stroke="var(--powder-darker)" stroke-width="1.5" opacity="0.5"/></svg>
+              </div>
+              <div class="motif" style="top: 65%; right: 30%; animation-delay: 3s;">
+                <svg width="20" height="14" viewBox="0 0 20 14"><path d="M2 7 L8 7 M12 7 L18 7 M8 4 L12 4 M8 10 L12 10" stroke="var(--lilac-deep)" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="phone-frame md">
+                <div class="phone-screen">
+                  <div class="ph-time">9:41</div>
+                  <div class="ph-title">Sunday recap</div>
+                  <div class="ph-meta">week 18 · 6 entries</div>
+                  <div class="ph-card"><div class="ph-thumb" style="background: var(--powder);"></div><div class="ph-card-text"><div class="a">3 wins</div><div class="b">from journal + slack</div></div></div>
+                  <div class="ph-card"><div class="ph-thumb" style="background: var(--lilac);"></div><div class="ph-card-text"><div class="a">2 reads</div><div class="b">articles + book progress</div></div></div>
+                  <div class="ph-cta" style="background: var(--lilac-deep); color: var(--cream);">view recap</div>
+                </div>
+              </div>
+            </div>
+            <div class="build-meta">
+              <div class="build-meta-top">
+                <span class="build-no">no. 02</span>
+                <span class="tag shipped">shipped</span>
+              </div>
+              <div class="build-name">Weekly digest automation</div>
+              <div class="build-dek">Reads my journal, calendar, and apps. Turns a week of noise into one quiet recap. Sundays only.</div>
+            </div>
+          </div>
+        </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      </div>
+    </section>
 
-<div class="analytics-card" style="background: #FFFFFF; border: 1px solid rgba(184,130,31,0.2); border-radius: 12px; padding: 0; cursor: pointer; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), border-color 0.3s, box-shadow 0.4s; overflow: hidden;">
-<div class="analytics-graphic draw-chart" style="height: 130px; background: linear-gradient(135deg, #B8821F 0%, #D4A040 100%); padding: 18px; position: relative;">
-<svg viewBox="0 0 280 90" style="width: 100%; height: 100%;">
-<rect x="20" y="55" width="34" height="35" fill="rgba(255,255,255,0.5)" rx="2"/>
-<rect x="64" y="35" width="34" height="55" fill="rgba(255,255,255,0.65)" rx="2"/>
-<rect x="108" y="22" width="34" height="68" fill="rgba(255,255,255,0.8)" rx="2"/>
-<rect x="152" y="12" width="34" height="78" fill="#FAFAF7" rx="2"/>
-<rect x="196" y="40" width="34" height="50" fill="rgba(255,255,255,0.65)" rx="2"/>
-<rect x="240" y="28" width="34" height="62" fill="rgba(255,255,255,0.75)" rx="2"/>
-</svg>
-</div>
-<div style="padding: 20px 22px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 01</div>
-<div style="display: flex; gap: 4px;">
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 7px; background: rgba(184,130,31,0.12); color: #6B4810; border-radius: 3px;">SQL</span>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 7px; background: rgba(184,130,31,0.12); color: #6B4810; border-radius: 3px;">Python</span>
-</div>
-</div>
-<h4 style="font-family: 'Lora', serif; font-weight: 400; font-size: 22px; line-height: 1.15; margin: 0 0 8px;">Book-of-the-month recommender</h4>
-<p style="font-size: 13px; line-height: 1.55; color: #444441; margin: 0 0 12px;">A small system that reads my Goodreads and surfaces a monthly pick. Same pattern as content recs at scale.</p>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B4810;">→ read & view code</div>
-</div>
-</div>
+    <!-- ============ ANALYTICS PROJECTS ============ -->
+    <section id="analytics" class="section">
+      <div class="section-head">
+        <span class="section-num">03 — analytics projects</span>
+        <h2 class="section-title">Smaller experiments. Code on github.</h2>
+        <p class="section-summary">Where I actually work with data. SQL, Python, a few rabbit holes.</p>
+      </div>
 
-<div class="analytics-card" style="background: #FFFFFF; border: 1px solid rgba(184,130,31,0.2); border-radius: 12px; padding: 0; cursor: pointer; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), border-color 0.3s, box-shadow 0.4s; overflow: hidden;">
-<div class="analytics-graphic draw-chart" style="height: 130px; background: linear-gradient(135deg, #6B4810 0%, #B8821F 100%); padding: 18px; position: relative; overflow: hidden;">
-<svg viewBox="0 0 280 90" style="width: 100%; height: 100%;">
-<path d="M5,75 Q40,68 65,58 T125,32 Q150,14 175,8 Q200,18 230,38 T275,68" stroke="#FAFAF7" stroke-width="2.5" fill="none"/>
-<path d="M5,75 Q40,68 65,58 T125,32 Q150,14 175,8 Q200,18 230,38 T275,68 L275,90 L5,90 Z" fill="rgba(255,255,255,0.18)"/>
-<circle cx="175" cy="8" r="4" fill="#FAFAF7"/>
-</svg>
-</div>
-<div style="padding: 20px 22px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 02</div>
-<div style="display: flex; gap: 4px;">
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 7px; background: rgba(184,130,31,0.12); color: #6B4810; border-radius: 3px;">Python</span>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 2px 7px; background: rgba(184,130,31,0.12); color: #6B4810; border-radius: 3px;">Tableau</span>
-</div>
-</div>
-<h4 style="font-family: 'Lora', serif; font-weight: 400; font-size: 22px; line-height: 1.15; margin: 0 0 8px;">Modeling Epidemics, replicated</h4>
-<p style="font-size: 13px; line-height: 1.55; color: #444441; margin: 0 0 12px;">Re-implemented the SIR model. Then asked: what does this look like applied to product virality?</p>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B4810;">→ read & view code</div>
-</div>
-</div>
+      <div class="analytics-grid sticky-row">
 
-</div>
-</section>
+        <div class="sticky t1" data-cursor data-cursor-text="view code">
+          <div class="proj-card">
+            <div class="proj-num">no. 01</div>
+            <div class="proj-title">Book-of-the-month recommender</div>
+            <div class="proj-why">A small system that reads my Goodreads and surfaces a monthly pick. Same pattern as content recs at scale, just for one user.</div>
+            <div class="proj-stack">
+              <span class="pill">SQL</span>
+              <span class="pill">Python</span>
+              <span class="pill">scikit-learn</span>
+            </div>
+            <a href="#" class="proj-link">→ github</a>
+          </div>
+        </div>
 
-<section id="builds" data-watch style="position: relative; margin: 0 -56px 96px; padding: 64px 56px; background: linear-gradient(180deg, transparent 0%, rgba(181,121,126,0.06) 30%, rgba(181,121,126,0.06) 70%, transparent 100%); scroll-margin-top: 60px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8A4A4F; letter-spacing: 0.08em; text-transform: uppercase;">03 — builds</div>
-<div style="flex: 1; height: 1px; background: rgba(181,121,126,0.25);"></div>
-<a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A4A4F; text-decoration: none;">see all →</a>
-</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 18px; line-height: 1.45; color: #444441; max-width: 580px; margin: 0 0 36px;">Things I made because I wanted them to exist.</p>
+        <div class="sticky t2" data-cursor data-cursor-text="view code">
+          <div class="proj-card">
+            <div class="proj-num">no. 02</div>
+            <div class="proj-title">Modeling Epidemics, replicated</div>
+            <div class="proj-why">Re-implemented the SIR model. Then asked: what does this look like applied to product virality?</div>
+            <div class="proj-stack">
+              <span class="pill">Python</span>
+              <span class="pill">numpy</span>
+              <span class="pill">Tableau</span>
+            </div>
+            <a href="#" class="proj-link">→ github</a>
+          </div>
+        </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;">
+        <div class="sticky t3" data-cursor data-cursor-text="view code">
+          <div class="proj-card">
+            <div class="proj-num">no. 03</div>
+            <div class="proj-title">[ a third project, optional ]</div>
+            <div class="proj-why">[ a one-paragraph why. what was the question. why does it matter. ]</div>
+            <div class="proj-stack">
+              <span class="pill">stack</span>
+              <span class="pill">stack</span>
+            </div>
+            <a href="#" class="proj-link">→ github</a>
+          </div>
+        </div>
 
-<div class="bloom-card" data-color="#B5797E" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid rgba(181,121,126,0.2); position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #B5797E 0%, #D4969A 100%); height: 180px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-<div class="bloom-phone" style="width: 90px; height: 150px; background: #1A1A1A; border-radius: 14px; padding: 4px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<div style="background: linear-gradient(180deg, #FAFAF7 0%, #F2EFE8 100%); width: 100%; height: 100%; border-radius: 11px; padding: 6px 4px; display: flex; flex-direction: column; gap: 3px;">
-<div style="font-family: 'Lora', serif; font-size: 8px; color: #1A1A1A;">This week</div>
-<svg viewBox="0 0 80 30" style="width: 100%; height: 24px;"><path d="M3,24 Q20,16 40,14 T78,6" stroke="#B5797E" stroke-width="1.5" fill="none"/><circle cx="78" cy="6" r="1.5" fill="#B5797E"/></svg>
-<div style="background: #EDE9DE; height: 8px; border-radius: 2px;"></div>
-<div style="background: #EDE9DE; height: 8px; border-radius: 2px;"></div>
-<div style="margin-top: auto; background: #B5797E; height: 12px; border-radius: 3px;"></div>
-</div>
-</div>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(138,74,79,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 7px 16px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8A4A4F;">build log →</div>
-</div>
-</div>
-<div style="padding: 16px 18px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 01</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 2px 7px; background: rgba(181,121,126,0.15); color: #8A4A4F; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em;">in progress</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 18px; line-height: 1.15; margin: 0 0 6px; color: #1A1A1A;">Baddie in Progress</h3>
-<p style="font-size: 12px; line-height: 1.5; color: #444441; margin: 0;">A fitness app that respects how I actually train.</p>
-</div>
-</div>
+      </div>
+    </section>
 
-<div class="bloom-card" data-color="#2D4A3E" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid #E5E3DD; position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #2D4A3E 0%, #4A6B5E 100%); height: 180px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-<svg viewBox="0 0 100 100" class="bloom-phone" style="width: 100px; height: 100px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<rect x="10" y="20" width="80" height="60" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1" rx="4"/>
-<line x1="10" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
-<rect x="14" y="40" width="40" height="4" fill="rgba(255,255,255,0.5)" rx="1"/>
-<rect x="14" y="48" width="32" height="4" fill="rgba(255,255,255,0.7)" rx="1"/>
-<rect x="14" y="56" width="36" height="4" fill="rgba(255,255,255,0.85)" rx="1"/>
-<rect x="14" y="64" width="22" height="4" fill="#FAFAF7" rx="1"/>
-<circle cx="80" cy="26" r="2.5" fill="rgba(255,255,255,0.9)"/>
-</svg>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(45,74,62,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 7px 16px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #2D4A3E;">view →</div>
-</div>
-</div>
-<div style="padding: 16px 18px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 02</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 2px 7px; background: rgba(45,74,62,0.1); color: #2D4A3E; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em;">in progress</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 18px; line-height: 1.15; margin: 0 0 6px; color: #1A1A1A;">Real Echo</h3>
-<p style="font-size: 12px; line-height: 1.5; color: #444441; margin: 0; font-style: italic;">[ tell me what real echo is and i'll fold it in ]</p>
-</div>
-</div>
+    <!-- ============ CASE STUDIES ============ -->
+    <section id="case-studies" class="section">
+      <div class="section-head">
+        <span class="section-num">04 — case studies</span>
+        <h2 class="section-title">How I think about consumer products.</h2>
+        <p class="section-summary">Each one starts with the strategy and ends with a recommendation. Hover any card to see what it analyzes.</p>
+      </div>
 
-<div class="bloom-card" data-color="#1D2A44" style="background: #FFFFFF; border-radius: 14px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; overflow: hidden; border: 1px solid #E5E3DD; position: relative;">
-<div class="bloom-preview" style="background: linear-gradient(135deg, #1D2A44 0%, #3D4A6E 100%); height: 180px; padding: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-<svg viewBox="0 0 100 100" class="bloom-phone" style="width: 100px; height: 100px; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
-<rect x="15" y="15" width="70" height="70" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="1" rx="6"/>
-<text x="50" y="35" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-family="JetBrains Mono, monospace" font-size="6">SUN MON</text>
-<rect x="22" y="42" width="12" height="12" fill="rgba(255,255,255,0.5)" rx="2"/>
-<rect x="38" y="42" width="12" height="12" fill="#FAFAF7" rx="2"/>
-<rect x="54" y="42" width="12" height="12" fill="rgba(255,255,255,0.7)" rx="2"/>
-<rect x="70" y="42" width="12" height="12" fill="rgba(255,255,255,0.5)" rx="2"/>
-<rect x="22" y="58" width="60" height="3" fill="rgba(255,255,255,0.4)" rx="1"/>
-<rect x="22" y="64" width="40" height="3" fill="rgba(255,255,255,0.4)" rx="1"/>
-<rect x="22" y="70" width="50" height="3" fill="rgba(255,255,255,0.4)" rx="1"/>
-</svg>
-<div class="bloom-overlay" style="position: absolute; inset: 0; background: rgba(29,42,68,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s;">
-<div style="background: #FAFAF7; padding: 7px 16px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #1D2A44;">view →</div>
-</div>
-</div>
-<div style="padding: 16px 18px;">
-<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">no. 03</div>
-<span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 2px 7px; background: rgba(29,42,68,0.1); color: #1D2A44; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.05em;">shipped</span>
-</div>
-<h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 18px; line-height: 1.15; margin: 0 0 6px; color: #1A1A1A;">Weekly digest automation</h3>
-<p style="font-size: 12px; line-height: 1.5; color: #444441; margin: 0;">Reads my journal, calendar, and apps. Sunday recap.</p>
-</div>
-</div>
+      <div class="scenic-row sticky-row" style="margin-bottom: 32px;">
 
-</div>
-</section>
+        <div class="sticky t1" data-cursor data-cursor-text="view case study">
+          <div class="scene">
+          <div class="scene-stage cal-ai">
+            <div class="logo-slot">cal ai</div>
+            <div class="motif" style="top: 28px; left: 38px;">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M14 6 C9 6 6 9 6 14 C6 19 9 24 14 24 C19 24 22 19 22 14 C22 9 19 6 14 6 Z" fill="var(--sage-darker)" opacity="0.30"/>
+                <path d="M14 6 L15 4" stroke="var(--sage-darker)" stroke-width="1.5" opacity="0.5"/>
+                <path d="M16 7 Q18 5 20 7" stroke="var(--sage-darker)" stroke-width="1.2" opacity="0.45" fill="none"/>
+              </svg>
+            </div>
+            <div class="motif" style="top: 55px; right: 44px; animation-delay: 1.5s;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="6" fill="var(--sage-darker)" opacity="0.20"/>
+                <circle cx="11" cy="11" r="3" fill="var(--sage-darker)" opacity="0.32"/>
+              </svg>
+            </div>
+            <div class="motif" style="bottom: 36px; left: 56px; animation-delay: 3s;">
+              <svg width="32" height="22" viewBox="0 0 32 22" fill="none">
+                <rect x="6" y="6" width="20" height="13" rx="2" fill="var(--sage-darker)" opacity="0.22"/>
+                <path d="M6 9 Q16 6 26 9" stroke="var(--sage-darker)" stroke-width="1" opacity="0.4" fill="none"/>
+                <path d="M6 12 Q16 9 26 12" stroke="var(--sage-darker)" stroke-width="1" opacity="0.4" fill="none"/>
+              </svg>
+            </div>
+            <div class="motif" style="bottom: 50px; right: 32px; animation-delay: 4.5s;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2 L12 8 L18 8 L13 12 L15 18 L10 14 L5 18 L7 12 L2 8 L8 8 Z" fill="var(--sage-darker)" opacity="0.28"/>
+              </svg>
+            </div>
+            <div class="phone-frame lg">
+              <div class="phone-screen">
+                <div class="ph-time">9:41</div>
+                <div class="ph-title">Today</div>
+                <div class="ph-meta">1,840 cal · scan 3 of 3</div>
+                <div class="ph-card"><div class="ph-thumb" style="background: var(--sage);"></div><div class="ph-card-text"><div class="a">Avocado toast</div><div class="b">320 cal</div></div></div>
+                <div class="ph-card"><div class="ph-thumb" style="background: var(--peach);"></div><div class="ph-card-text"><div class="a">Greek salad</div><div class="b">410 cal</div></div></div>
+                <div style="background: var(--sage-darker); color: var(--cream); border-radius: 7px; padding: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.04em; text-align: center; font-weight: 500;">streak unlocked · 3 scans</div>
+                <div class="ph-cta" style="background: var(--ink); color: var(--cream); margin-top: auto;">+ scan meal</div>
+              </div>
+            </div>
+          </div>
+          <div class="scene-meta">
+            <div class="scene-meta-top">
+              <span class="scene-no">no. 01 · cal ai</span>
+              <div class="scene-tags"><span class="tag flagship">flagship</span></div>
+            </div>
+            <div class="scene-name">The bottleneck isn't accuracy. It's the third scan.</div>
+            <div class="scene-expand">
+              <p>Cal AI's product is fast — point your camera at a meal, get a calorie estimate. The bet is speed over accuracy. Reviews disagree, focus on accuracy.</p>
+              <p>I went looking for what actually drives retention. The answer: the third scan in seven days is the activation threshold.</p>
+              <span class="read-cue">~6 min read · oct 2026</span>
+            </div>
+          </div>
+          </div>
+        </div>
 
-<section id="reading" data-watch style="margin-bottom: 96px; scroll-margin-top: 60px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">04 — reading list</div>
-<div style="flex: 1; height: 1px; background: #E5E3DD;"></div>
-</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 18px; line-height: 1.45; color: #6B6B6B; max-width: 580px; margin: 0 0 24px;">Hover to flip. Books that actually changed how I think about the work.</p>
+        <div class="sticky t2" data-cursor data-cursor-text="view case study">
+          <div class="scene">
+          <div class="scene-stage hopper">
+            <div class="logo-slot">hopper</div>
+            <div class="motif plane" style="top: 36px; left: 26px;">
+              <svg width="34" height="20" viewBox="0 0 34 20" fill="none">
+                <path d="M2 12 L18 6 L30 6 L24 12 L30 18 L18 12 Z" fill="var(--powder-darker)" opacity="0.55"/>
+              </svg>
+            </div>
+            <div class="motif plane" style="top: 62%; right: 35px; animation-delay: 3s; animation-duration: 13s;">
+              <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+                <path d="M2 10 L14 4 L24 4 L19 10 L24 14 L14 10 Z" fill="var(--powder-darker)" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="motif plane" style="bottom: 28px; left: 30%; animation-delay: 6s; animation-duration: 12s;">
+              <svg width="24" height="14" viewBox="0 0 24 14" fill="none">
+                <path d="M2 8 L12 3 L20 3 L16 8 L20 12 L12 8 Z" fill="var(--powder-darker)" opacity="0.45"/>
+              </svg>
+            </div>
+            <div class="phone-frame lg">
+              <div class="phone-screen">
+                <div class="ph-time">9:41</div>
+                <div class="ph-title">SFO → JFK</div>
+                <div class="ph-meta">price watch · active</div>
+                <div class="ph-card"><div class="ph-thumb" style="background: var(--powder);"></div><div class="ph-card-text"><div class="a">Wed Apr 30</div><div class="b">$187 · ↓ from $241</div></div></div>
+                <div class="ph-card"><div class="ph-thumb" style="background: var(--powder);"></div><div class="ph-card-text"><div class="a">Sat May 03</div><div class="b">$203 · stable</div></div></div>
+                <div style="background: var(--powder-darker); color: var(--cream); border-radius: 7px; padding: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.04em; text-align: center; font-weight: 500;">price drop alert</div>
+                <div class="ph-cta" style="background: var(--ink); color: var(--cream); margin-top: auto;">view alert</div>
+              </div>
+            </div>
+          </div>
+          <div class="scene-meta">
+            <div class="scene-meta-top">
+              <span class="scene-no">no. 02 · hopper</span>
+              <div class="scene-tags"><span class="tag flagship">flagship</span></div>
+            </div>
+            <div class="scene-name">The funnel leaks before users see a price.</div>
+            <div class="scene-expand">
+              <p>Hopper sells "predict and save." But 42% of intent-stage users abandon before ever seeing a price quote.</p>
+              <p>Reframing the funnel as <em>intent → predict → save</em> instead of just <em>search → book</em> changes the entire growth model.</p>
+              <span class="read-cue">~7 min read · sep 2026</span>
+            </div>
+          </div>
+          </div>
+        </div>
 
-<div style="background: linear-gradient(180deg, #6B4810 0%, #4A3008 100%); border-radius: 14px; padding: 36px 28px; position: relative; overflow: hidden;">
-<div style="position: absolute; bottom: 0; left: 0; right: 0; height: 12px; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 100%);"></div>
-<div style="position: absolute; bottom: 12px; left: 0; right: 0; height: 6px; background: #2A1A05;"></div>
+      </div>
 
-<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative; z-index: 2;">
+      <div class="scenic-row sticky-row">
 
-<div class="flip-card book-tilt-1" style="perspective: 1200px; height: 230px;">
-<div class="flip-inner" style="position: relative; width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; cursor: pointer;">
-<div class="flip-front book-cover-shadow" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #2D4A3E; border-radius: 4px 6px 6px 4px; padding: 18px 14px; display: flex; flex-direction: column; justify-content: space-between; color: #FAFAF7; font-family: 'Lora', serif; box-shadow: 6px 8px 18px rgba(0,0,0,0.35), inset 4px 0 0 rgba(0,0,0,0.18);">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.6);">non-fiction</div>
-<div><div style="font-size: 18px; line-height: 1.1; font-weight: 400; margin-bottom: 6px;">Trustworthy Online Controlled Experiments</div><div style="font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(250,250,247,0.7); font-style: italic;">Kohavi, Tang, Xu</div></div>
-</div>
-<div class="flip-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #FAFAF7; border-radius: 4px; padding: 18px 14px; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 6px 8px 18px rgba(0,0,0,0.25);">
-<div style="font-family: 'Lora', serif; font-size: 15px; line-height: 1.4; color: #1A1A1A;">The book that taught me most A/B test results aren't telling you what you think they are.</div>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.06em; text-transform: uppercase;">flip back ↻</div>
-</div>
-</div>
-</div>
+        <div class="sticky t3" data-cursor data-cursor-text="view case study">
+          <div class="scene video-card">
+          <div class="scene-stage hinge">
+            <div class="logo-slot">hinge</div>
+            <div class="motif" style="top: 30px; left: 30px;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 18 L4 11 Q1 8 4 5 Q7 2 11 6 Q15 2 18 5 Q21 8 18 11 Z" fill="var(--pink-darker)" opacity="0.32"/>
+              </svg>
+            </div>
+            <div class="motif" style="top: 50px; right: 30px; animation-delay: 1.5s;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <text x="10" y="15" text-anchor="middle" font-family="Lora,serif" font-size="20" fill="var(--pink-darker)" opacity="0.30">?</text>
+              </svg>
+            </div>
+            <div class="motif" style="bottom: 30px; left: 50px; animation-delay: 3s;">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 14 L3 9 Q1 7 3 4 Q5 2 9 5 Q13 2 15 4 Q17 7 15 9 Z" fill="var(--pink-darker)" opacity="0.25"/>
+              </svg>
+            </div>
+            <div class="video-mock">
+              <div class="vid-screen">
+                <div class="profile-card-1">
+                  <div class="profile-photo"></div>
+                  <div class="profile-name">Profile 01</div>
+                  <div class="profile-meta">two truths and a lie</div>
+                </div>
+                <div class="profile-card-2">
+                  <div class="profile-photo"></div>
+                  <div class="profile-name">Profile 02</div>
+                  <div class="profile-meta">my simple pleasures</div>
+                </div>
+              </div>
+            </div>
+            <div class="video-pill">video · auto</div>
+          </div>
+          <div class="scene-meta">
+            <div class="scene-meta-top">
+              <span class="scene-no">no. 03 · hinge</span>
+              <div class="scene-tags">
+                <span class="tag compact">compact</span>
+                <span class="tag video-soon">video</span>
+              </div>
+            </div>
+            <div class="scene-name">"Engagement" is two metrics in a trench coat.</div>
+            <div class="scene-expand">
+              <p>Hinge reports a single engagement KPI. It rolls up two metrics that move in opposite directions: time-in-app and successful matches.</p>
+              <p>Optimizing for one quietly punishes the other. The trade-off has to live in the open.</p>
+              <span class="read-cue">~4 min read · aug 2026</span>
+            </div>
+          </div>
+          </div>
+        </div>
 
-<div class="flip-card book-tilt-2" style="perspective: 1200px; height: 230px;">
-<div class="flip-inner" style="position: relative; width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; cursor: pointer;">
-<div class="flip-front book-cover-shadow" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #B5797E; border-radius: 4px 6px 6px 4px; padding: 18px 14px; display: flex; flex-direction: column; justify-content: space-between; color: #FAFAF7; font-family: 'Lora', serif; box-shadow: 6px 8px 18px rgba(0,0,0,0.35), inset 4px 0 0 rgba(0,0,0,0.18);">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.7);">non-fiction</div>
-<div><div style="font-size: 18px; line-height: 1.1; font-weight: 400; margin-bottom: 6px;">Lean Analytics</div><div style="font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(250,250,247,0.75); font-style: italic;">Croll & Yoskovitz</div></div>
-</div>
-<div class="flip-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #FAFAF7; border-radius: 4px; padding: 18px 14px; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 6px 8px 18px rgba(0,0,0,0.25);">
-<div style="font-family: 'Lora', serif; font-size: 15px; line-height: 1.4; color: #1A1A1A;">"One metric that matters." The most useful framework an early-stage analyst can have.</div>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.06em; text-transform: uppercase;">flip back ↻</div>
-</div>
-</div>
-</div>
+        <div class="sticky t4" data-cursor data-cursor-text="view case study">
+          <div class="scene">
+          <div class="scene-stage duolingo">
+            <div class="logo-slot">duolingo</div>
+            <div class="motif" style="top: 30px; left: 32px;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="3" width="14" height="14" rx="2" fill="var(--honey-darker)" opacity="0.30"/>
+                <text x="10" y="14" text-anchor="middle" font-family="Lora,serif" font-size="11" fill="var(--cream)" opacity="0.85">A</text>
+              </svg>
+            </div>
+            <div class="motif" style="top: 56px; right: 30px; animation-delay: 1.5s;">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <rect x="3" y="3" width="12" height="12" rx="2" fill="var(--honey-darker)" opacity="0.28"/>
+                <text x="9" y="13" text-anchor="middle" font-family="Lora,serif" font-size="9" fill="var(--cream)" opacity="0.85">B</text>
+              </svg>
+            </div>
+            <div class="motif" style="bottom: 36px; left: 50px; animation-delay: 3s;">
+              <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+                <line x1="2" y1="7" x2="20" y2="7" stroke="var(--honey-darker)" stroke-width="1.2" opacity="0.5" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+            <div class="duo-mock">
+              <div class="duo-screen">
+                <div class="ph-time">9:41</div>
+                <div class="duo-progress"><div class="duo-progress-fill"></div></div>
+                <div class="duo-q">Translate "the rain in Spain"</div>
+                <div class="duo-options">
+                  <div class="duo-opt">la lluvia en perú</div>
+                  <div class="duo-opt correct">la lluvia en españa</div>
+                  <div class="duo-opt">el sol en méxico</div>
+                  <div class="duo-opt">el viento en chile</div>
+                </div>
+                <div class="ph-cta" style="background: var(--honey-darker); color: var(--cream); margin-top: auto;">check</div>
+              </div>
+            </div>
+          </div>
+          <div class="scene-meta">
+            <div class="scene-meta-top">
+              <span class="scene-no">no. 04 · duolingo</span>
+              <div class="scene-tags"><span class="tag flagship">flagship</span></div>
+            </div>
+            <div class="scene-name">Streak isn't a metric, it's a tax.</div>
+            <div class="scene-expand">
+              <p>Duolingo's streak is the most-cited engagement mechanic in product. But for the bottom 30% of users, it's the reason they churn.</p>
+              <p>What if streak protection was the default, not a paid upgrade?</p>
+              <span class="read-cue">~5 min read · jul 2026</span>
+            </div>
+          </div>
+          </div>
+        </div>
 
-<div class="flip-card book-tilt-3" style="perspective: 1200px; height: 230px;">
-<div class="flip-inner" style="position: relative; width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; cursor: pointer;">
-<div class="flip-front book-cover-shadow" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #1D2A44; border-radius: 4px 6px 6px 4px; padding: 18px 14px; display: flex; flex-direction: column; justify-content: space-between; color: #FAFAF7; font-family: 'Lora', serif; box-shadow: 6px 8px 18px rgba(0,0,0,0.35), inset 4px 0 0 rgba(0,0,0,0.18);">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.6);">essays</div>
-<div><div style="font-size: 18px; line-height: 1.1; font-weight: 400; margin-bottom: 6px;">[ swap with your real third book ]</div><div style="font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(250,250,247,0.7); font-style: italic;">[ author ]</div></div>
-</div>
-<div class="flip-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #FAFAF7; border-radius: 4px; padding: 18px 14px; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 6px 8px 18px rgba(0,0,0,0.25);">
-<div style="font-family: 'Lora', serif; font-size: 15px; line-height: 1.4; color: #1A1A1A; font-style: italic;">[ your one-sentence opinion goes here ]</div>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.06em; text-transform: uppercase;">flip back ↻</div>
-</div>
-</div>
-</div>
+      </div>
+    </section>
 
-<div class="flip-card book-tilt-4" style="perspective: 1200px; height: 230px;">
-<div class="flip-inner" style="position: relative; width: 100%; height: 100%; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); transform-style: preserve-3d; cursor: pointer;">
-<div class="flip-front book-cover-shadow" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #B8821F; border-radius: 4px 6px 6px 4px; padding: 18px 14px; display: flex; flex-direction: column; justify-content: space-between; color: #FAFAF7; font-family: 'Lora', serif; box-shadow: 6px 8px 18px rgba(0,0,0,0.35), inset 4px 0 0 rgba(0,0,0,0.18);">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,247,0.6);">fiction</div>
-<div><div style="font-size: 18px; line-height: 1.1; font-weight: 400; margin-bottom: 6px;">[ swap with your fourth book ]</div><div style="font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(250,250,247,0.7); font-style: italic;">[ author ]</div></div>
-</div>
-<div class="flip-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: #FAFAF7; border-radius: 4px; padding: 18px 14px; transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 6px 8px 18px rgba(0,0,0,0.25);">
-<div style="font-family: 'Lora', serif; font-size: 15px; line-height: 1.4; color: #1A1A1A; font-style: italic;">[ your one-sentence opinion goes here ]</div>
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #888780; letter-spacing: 0.06em; text-transform: uppercase;">flip back ↻</div>
-</div>
-</div>
-</div>
+    <!-- ============ PLACEHOLDER STUB (FOR VISUAL RHYTHM) ============ -->
+    <section class="section" style="margin-bottom: 80px;">
+      <div class="placeholder-stub" data-cursor data-cursor-text="coming">
+        <div class="stub-pre">05 — coming soon</div>
+        <div class="stub-body">A new section is being written. Check back.</div>
+        <div class="stub-marker"></div>
+      </div>
+    </section>
 
-</div>
-</div>
-</section>
+    <div style="padding-top: 36px; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; display: flex; justify-content: space-between;">
+      <span>v7 grid v6 · field notebook vol. i</span>
+      <span>aana khanduri</span>
+    </div>
 
-<section id="field-notes" data-watch style="margin-bottom: 96px; scroll-margin-top: 60px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">05 — field notes <span style="color: #B5797E; margin-left: 4px;">⌖</span></div>
-<div style="flex: 1; height: 1px; background: #E5E3DD;"></div>
-</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 18px; line-height: 1.45; color: #6B6B6B; max-width: 580px; margin: 0 0 28px;">Hot takes from my notebook. Most of these are wrong. A few might be useful.</p>
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 800px;">
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #B5797E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on dashboards</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"Most dashboards are fancy graveyards for questions nobody is asking anymore."</p>
-</div>
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #2D4A3E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on activation</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"The first scan, swipe, message, that's not activation. That's just the trailer."</p>
-</div>
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #1D2A44; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on a/b tests</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"A 2% lift on the wrong metric is more dangerous than a 20% loss on the right one."</p>
-</div>
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #6B4810; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on AI in analytics</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"Claude can write the SQL. It can't tell you the SQL was the wrong thing to write."</p>
-</div>
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #B5797E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on retention</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"Most retention work is loss prevention dressed up as growth."</p>
-</div>
-
-<div class="note-strip" style="background: #FFFFFF; border: 1px solid #E5E3DD; border-radius: 10px; padding: 18px 22px; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #2D4A3E; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;">on the brief</div>
-<p style="font-family: 'Lora', serif; font-style: italic; font-size: 17px; line-height: 1.35; color: #1A1A1A; margin: 0;">"If the brief is right, the analyst is mostly typing. If the brief is wrong, the analyst is doing the job."</p>
-</div>
-
-</div>
-
-<div style="margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #888780; max-width: 800px;">→ <a href="#" style="color: #B5797E; text-decoration: none; border-bottom: 1px solid #B5797E; padding-bottom: 1px;">read all 23 notes</a> · updated weekly</div>
-</section>
-
-<section id="about" data-watch style="margin-bottom: 64px; scroll-margin-top: 60px; max-width: 800px;">
-<div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px;">
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; letter-spacing: 0.08em; text-transform: uppercase;">06 — about me</div>
-<div style="flex: 1; height: 1px; background: #E5E3DD;"></div>
-<a href="#" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2D4A3E; text-decoration: none;">read the long version →</a>
-</div>
-<p style="font-size: 16px; line-height: 1.7; color: #1A1A1A; margin: 0 0 14px; max-width: 600px;">Quick version: master's in CS, working as a product analyst, lifting heavy on the side. Most days are some mix of writing case studies, building a fitness app for myself, and asking whether the question we're trying to answer is actually the right one.</p>
-<p style="font-size: 14px; line-height: 1.7; color: #6B6B6B; margin: 0; max-width: 600px;">If you want the long version with the photos and the reading list and the things people don't expect, the long page is over there.</p>
-</section>
-
-<div style="padding: 28px 0; border-top: 1px solid #E5E3DD; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888780; display: flex; justify-content: space-between; letter-spacing: 0.06em; text-transform: uppercase;">
-<span>built nov 2026 · field notebook vol. i</span>
-<span>aana khanduri</span>
-</div>
-
-</main>
-</div>
-
+  </main>
 </div>
 
 <script>
-(function() {
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
-  function tick() {
-    var el = document.getElementById('live-clock'); if (!el) return;
-    var d = new Date(); var h = d.getHours(); var ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12; if (h === 0) h = 12;
-    el.textContent = h + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + ' ' + ampm;
-  }
-  tick(); setInterval(tick, 1000);
+// === CURSOR ===
+const cursor = document.getElementById('cursor');
+let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0;
+document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+function animateCursor() {
+  dotX += (mouseX - dotX) * 0.18;
+  dotY += (mouseY - dotY) * 0.18;
+  cursor.style.transform = `translate(${dotX}px, ${dotY}px)`;
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
 
-  var dateEl = document.getElementById('lab-date');
-  if (dateEl) {
-    var d = new Date();
-    var months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
-    dateEl.textContent = d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ' · field notebook vol. i';
-  }
-
-  var statuses = [
-    { label: '/ working on', text: 'finishing the cal ai case study', color: '#B5797E' },
-    { label: '/ reading',    text: 'trustworthy online controlled experiments', color: '#2D4A3E' },
-    { label: '/ listening',  text: "lenny's podcast, slow churn ep.",     color: '#1D2A44' },
-    { label: '/ thinking',   text: 'why activation thresholds beat funnels', color: '#6B4810' }
-  ];
-  var statusIdx = 0;
-  var statusLabel = document.getElementById('status-label');
-  var statusText  = document.getElementById('status-text');
-  function rotateStatus() {
-    statusIdx = (statusIdx + 1) % statuses.length;
-    var s = statuses[statusIdx];
-    statusText.style.opacity = '0';
-    setTimeout(function() {
-      statusLabel.textContent = s.label;
-      statusLabel.style.color = s.color;
-      statusText.textContent = s.text;
-      statusText.style.opacity = '1';
-    }, 400);
-  }
-  setInterval(rotateStatus, 6000);
-
-  var card = document.getElementById('visitor-card');
-  var cardText = document.getElementById('visitor-card-text');
-  var visitorStates = ['leave a trace ↗', 'thanks for visiting ✿', 'say hi via email →'];
-  var vIdx = 0;
-  card.addEventListener('click', function() {
-    vIdx = (vIdx + 1) % visitorStates.length;
-    cardText.textContent = visitorStates[vIdx];
+const triggers = document.querySelectorAll('[data-cursor]');
+triggers.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.classList.add('expanded');
+    cursor.textContent = el.dataset.cursorText || 'view';
   });
+  el.addEventListener('mouseleave', () => {
+    cursor.classList.remove('expanded');
+    cursor.textContent = '';
+  });
+});
 
-  var navItems = document.querySelectorAll('.nav-item');
-  var sections = document.querySelectorAll('[data-watch]');
-  function updateActiveNav() {
-    var scrollY = window.scrollY + 200; var current = null;
-    sections.forEach(function(s) { if (s.offsetTop <= scrollY) current = s.id; });
-    navItems.forEach(function(item) {
-      if (item.dataset.section === current) item.classList.add('active');
-      else item.classList.remove('active');
-    });
-  }
-  window.addEventListener('scroll', updateActiveNav, { passive: true });
-  updateActiveNav();
-})();
+// === FIREFLY ===
+const firefly = document.getElementById('firefly');
+const fireflyMsg = document.getElementById('firefly-msg');
+const prompts = [
+  "I'm so happy you're here.",
+  "this is not a button.",
+  "ooh, baited, you got me.",
+  "okay, now actually stop it.",
+  "you're really committed huh.",
+  "fine. I keep flying."
+];
+let clickCount = 0;
+let msgTimeout;
+
+firefly.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const idx = clickCount % prompts.length;
+  fireflyMsg.textContent = prompts[idx];
+
+  // position speech bubble above the firefly's current screen position
+  const r = firefly.getBoundingClientRect();
+  fireflyMsg.style.left = (r.left + r.width / 2) + 'px';
+  fireflyMsg.style.top = (r.top - 50) + 'px';
+  fireflyMsg.style.transform = 'translateX(-50%) translateY(0)';
+
+  fireflyMsg.classList.add('show');
+  clearTimeout(msgTimeout);
+  msgTimeout = setTimeout(() => fireflyMsg.classList.remove('show'), 4000);
+  clickCount++;
+});
+firefly.addEventListener('mouseenter', () => {
+  cursor.classList.add('expanded');
+  cursor.textContent = 'click me';
+});
+firefly.addEventListener('mouseleave', () => {
+  cursor.classList.remove('expanded');
+  cursor.textContent = '';
+});
+
+// === SIDEBAR ACTIVE NAV (scroll-spy) ===
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sb-link');
+function updateActiveNav() {
+  let active = sections[0]?.id;
+  const scrollPos = window.scrollY + 200;
+  sections.forEach(sec => {
+    if (sec.offsetTop <= scrollPos) active = sec.id;
+  });
+  navLinks.forEach(l => {
+    if (l.getAttribute('href') === '#' + active) l.classList.add('active');
+    else l.classList.remove('active');
+  });
+}
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+
+// smooth scroll for sidebar nav clicks
+navLinks.forEach(l => {
+  l.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(l.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// === STATUS ROTATOR ===
+const statusMsgs = [
+  "writing the cal ai case study",
+  "reading 'trustworthy controlled experiments'",
+  "lifting heavy on tuesday and friday",
+  "thinking about activation thresholds"
+];
+let statusIdx = 0;
+const statusEl = document.getElementById('status-msg');
+function rotateStatus() {
+  statusEl.style.opacity = '0';
+  setTimeout(() => {
+    statusIdx = (statusIdx + 1) % statusMsgs.length;
+    statusEl.textContent = statusMsgs[statusIdx];
+    statusEl.style.opacity = '1';
+  }, 500);
+}
+setInterval(rotateStatus, 6000);
 </script>
 </body>
 </html>
