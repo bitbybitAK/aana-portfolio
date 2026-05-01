@@ -203,3 +203,11 @@ export interface SiteContent {
   sections: SectionsContent;
   socials: SocialLink[];
 }
+
+export interface Community {
+  id: string
+  icon: string
+  accent: 'sage' | 'pink' | 'powder' | 'honey' | 'lilac' | 'peach'
+  name: string
+  body: string
+}

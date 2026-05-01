@@ -1,3 +1,253 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================================
+   GLOBAL BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  cursor: none;
+}
+
+body {
+  background: theme('colors.cream');
+  color: theme('colors.ink');
+  font-family: theme('fontFamily.inter');
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Anything interactive uses cursor: none on desktop so the custom dot is the only cursor */
+a,
+button,
+[data-cursor] {
+  cursor: none;
+}
+
+/* Mobile fallback — restore native cursor and tap behavior */
+@media (max-width: 1024px) {
+  html {
+    cursor: auto;
+  }
+  a,
+  button,
+  [data-cursor] {
+    cursor: pointer;
+  }
+}
+
+/* ============================================================
+   FLOAT KEYFRAMES — 4 staggered tilts for sticky-note pattern
+   Each tilt has its own keyframe so cards never breathe in sync.
+   The rotate value bakes into transform so hover can override cleanly.
+   ============================================================ */
+
+@keyframes floaty-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes float-t1 {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50%      { transform: rotate(-2deg) translateY(-10px); }
+}
+@keyframes float-t2 {
+  0%, 100% { transform: rotate(1.5deg) translateY(0); }
+  50%      { transform: rotate(1.5deg) translateY(-12px); }
+}
+@keyframes float-t3 {
+  0%, 100% { transform: rotate(-1deg) translateY(0); }
+  50%      { transform: rotate(-1deg) translateY(-9px); }
+}
+@keyframes float-t4 {
+  0%, 100% { transform: rotate(2.5deg) translateY(0); }
+  50%      { transform: rotate(2.5deg) translateY(-11px); }
+}
+
+/* ============================================================
+   MOTIF DRIFT — for floating SVG elements inside scenic cards
+   ============================================================ */
+
+@keyframes motif-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(6deg); }
+}
+
+@keyframes plane-drift {
+  0%   { transform: translateX(-20px) translateY(0); opacity: 0; }
+  10%  { opacity: 0.8; }
+  90%  { opacity: 0.8; }
+  100% { transform: translateX(40px) translateY(-6px); opacity: 0; }
+}
+
+/* ============================================================
+   FIREFLY — bottom-edge full-viewport path
+   ============================================================ */
+
+@keyframes firefly-path {
+  0%   { left: 6vw;  bottom: 18px; top: auto; }
+  10%  { left: 14vw; bottom: 32px; top: auto; }
+  20%  { left: 26vw; bottom: 14px; top: auto; }
+  30%  { left: 38vw; bottom: 28px; top: auto; }
+  40%  { left: 50vw; bottom: 18px; top: auto; }
+  50%  { left: 62vw; bottom: 36px; top: auto; }
+  60%  { left: 74vw; bottom: 14px; top: auto; }
+  70%  { left: 86vw; bottom: 24px; top: auto; }
+  80%  { left: 78vw; bottom: 30px; top: auto; }
+  90%  { left: 60vw; bottom: 16px; top: auto; }
+  100% { left: 6vw;  bottom: 18px; top: auto; }
+}
+
+@keyframes firefly-glow {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+/* ============================================================
+   PULSE / BLINK utilities
+   ============================================================ */
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ============================================================
+   HINGE CARD — profile card swipe loop
+   ============================================================ */
+
+@keyframes hinge-swipe-1 {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+  35%  { transform: translateX(80px) rotate(14deg); opacity: 0; }
+  36%, 100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+}
+@keyframes hinge-swipe-2 {
+  0%, 35%   { top: 60px; }
+  36%, 100% { top: 32px; }
+}
+
+/* ============================================================
+   ENTRY-ONLY — orb breathing, dust drift, petal fall, fade-up
+   The entry page (/) uses these. They stay defined globally
+   so app/page.tsx can reference them without duplication.
+   ============================================================ */
+
+@keyframes orb-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50%      { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes orb-glow {
+  0%, 100% { opacity: 0.95; }
+  50%      { opacity: 0.75; }
+}
+
+@keyframes dust-drift {
+  0%   { transform: translate(0, 0); opacity: var(--opa); }
+  25%  { transform: translate(var(--dx1), var(--dy1)); opacity: calc(var(--opa) * 0.7); }
+  50%  { transform: translate(var(--dx2), var(--dy2)); opacity: var(--opa); }
+  75%  { transform: translate(var(--dx3), var(--dy3)); opacity: calc(var(--opa) * 0.6); }
+  100% { transform: translate(0, 0); opacity: var(--opa); }
+}
+
+@keyframes petal-fall {
+  0%   { transform: translate(0, -40px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.65; }
+  85%  { opacity: 0.55; }
+  100% { transform: translate(var(--dx), 100vh) rotate(var(--rot)); opacity: 0; }
+}
+
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cta-breath {
+  0%, 100% { box-shadow: 0 0 0 rgba(92,74,64,0); }
+  50%      { box-shadow: 0 8px 28px rgba(92,74,64,0.10); }
+}
+
+/* ============================================================
+   STICKY NOTE PATTERN — outer wrapper styles
+   The component applies a t1/t2/t3/t4 class for tilt + animation.
+   ============================================================ */
+
+.sticky-note {
+  background: theme('colors.cream-2');
+  border-radius: 16px;
+  padding: 12px 12px 16px;
+  box-shadow: theme('boxShadow.sticky');
+  cursor: none;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s,
+              filter 0.5s;
+}
+
+.sticky-note.t1 { transform: rotate(-2deg); animation: float-t1 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite; }
+.sticky-note.t2 { transform: rotate(1.5deg); animation: float-t2 8s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 1.2s; }
+.sticky-note.t3 { transform: rotate(-1deg); animation: float-t3 7.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 2.4s; }
+.sticky-note.t4 { transform: rotate(2.5deg); animation: float-t4 8.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 0.6s; }
+
+.sticky-note:hover {
+  transform: rotate(0deg) translateY(-12px) scale(1.012) !important;
+  box-shadow: theme('boxShadow.sticky-hover');
+  animation-play-state: paused !important;
+  z-index: 5;
+}
+
+/* Sibling fade — applied by parent .sticky-row to non-hovered cards */
+.sticky-row:hover .sticky-note:not(:hover) {
+  filter: saturate(0.5) brightness(0.96);
+}
+
+/* ============================================================
+   SCENE EXPAND — case study cards reveal extra copy on hover
+   Triggered from parent .sticky-note hover, NOT the inner card.
+   ============================================================ */
+
+.scene-expand {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.45s ease,
+              margin-top 0.45s;
+}
+.sticky-note:hover .scene-expand {
+  max-height: 220px;
+  opacity: 1;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   HOVER-FADE-OTHERS — universal pattern for rows of items
+   Apply to .fade-row containers; children fade when sibling hovered.
+   ============================================================ */
+
+.fade-row:hover > * {
+  filter: saturate(0.55) brightness(0.94);
+  transition: filter 0.5s;
+}
+.fade-row > *:hover {
+  filter: none !important;
+}
+
+/* ============================================================
+   Disable text selection on cursor-following elements to avoid
+   flicker when dragging across cards
+   ============================================================ */
+
+[data-cursor] {
+  user-select: none;
+  -webkit-user-select: none;
+}
