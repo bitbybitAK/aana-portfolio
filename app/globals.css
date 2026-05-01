@@ -193,10 +193,10 @@ button,
               filter 0.5s;
 }
 
-.sticky-note.t1 { transform: rotate(-2deg); animation: float-t1 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite; }
-.sticky-note.t2 { transform: rotate(1.5deg); animation: float-t2 8s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 1.2s; }
-.sticky-note.t3 { transform: rotate(-1deg); animation: float-t3 7.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 2.4s; }
-.sticky-note.t4 { transform: rotate(2.5deg); animation: float-t4 8.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 0.6s; }
+.sticky-note.t1:not(:hover) { transform: rotate(-2deg); animation: float-t1 7s cubic-bezier(0.45,0.05,0.55,0.95) infinite; }
+.sticky-note.t2:not(:hover) { transform: rotate(1.5deg); animation: float-t2 8s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 1.2s; }
+.sticky-note.t3:not(:hover) { transform: rotate(-1deg); animation: float-t3 7.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 2.4s; }
+.sticky-note.t4:not(:hover) { transform: rotate(2.5deg); animation: float-t4 8.5s cubic-bezier(0.45,0.05,0.55,0.95) infinite; animation-delay: 0.6s; }
 
 .sticky-note:hover {
   transform: rotate(0deg) translateY(-12px) scale(1.012) !important;
@@ -262,6 +262,7 @@ button,
   position: fixed;
   pointer-events: none;
   z-index: 9999;
+  will-change: transform;
   width: 14px;
   height: 14px;
   margin-left: -7px;
@@ -280,7 +281,6 @@ button,
   justify-content: center;
   overflow: hidden;
   transition:
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
     padding 0.4s,
@@ -415,6 +415,9 @@ button,
     filter 0.5s,
     box-shadow 0.5s,
     z-index 0s;
+}
+
+.hero-photo:not(:hover) {
   animation: floaty-slow 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
@@ -472,6 +475,9 @@ button,
 .book-flip {
   perspective: 1400px;
   cursor: none;
+}
+
+.book-flip:not(:hover) {
   animation: floaty-slow 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
