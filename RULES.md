@@ -1,184 +1,161 @@
-# Rules — Aana Khanduri Portfolio
+# RULES.md — Project Rules
 
-These are the rules Claude Code follows when working on this project. Every session starts by reading this file.
+These rules govern how Claude Code should behave in this project. They take precedence over default Claude Code behavior. Read these at the start of every session before doing any work.
 
-If a rule conflicts with a request from Aana, follow the rule and flag the conflict. The point is consistency.
-
----
-
-## A. SCOPE — what NOT to build
-
-**A1. Moderate scope discipline.** Add small obvious things without asking (favicon, basic meta tags, accessibility attributes, sensible defaults). Confirm anything bigger before building.
-
-**A2. No invented features.** Don't add contact forms, newsletter signups, blog systems, search, dark mode toggles, analytics, or social-share widgets unless explicitly requested.
-
-**A3. No invented content.** Never replace a `[ placeholder ]` with invented text. If content is missing, leave the placeholder visible and flag it.
-
-**A4. No premature optimization.** No CDN setup, no edge functions, no caching strategies, no image CDN integration until the basic site is live and working.
+**Last updated:** 2026-05-01 (v7)
 
 ---
 
-## B. CODE ORGANIZATION — where things live
+## A. SCOPE
 
-**B1. Content separation.** All user-facing copy lives in `/content/*.ts`. One file per content type:
-- `/content/case-studies.ts`
-- `/content/analytics-projects.ts`
-- `/content/builds.ts`
-- `/content/reading-list.ts`
-- `/content/field-notes.ts`
-- `/content/about.ts`
-- `/content/site.ts` (hero text, sidebar, status messages, etc.)
+**A1. Moderate scope.** Each prompt does what it asks for. Don't expand scope. If a prompt says "build the homepage", build the homepage — do not also start refactoring the content layer or adding pages that weren't requested.
 
-Components import content. Components do not define content.
+**A2. No invented features.** Don't add features Aana didn't ask for, even if they seem like obvious good ideas. Examples of things to never add unprompted: dark mode, language toggles, contact forms, blog index pages, RSS feeds, search, theme switchers, animation toggles. If you have an idea, mention it as a flag in your final summary, do not implement it.
 
-**B2. Style discipline.** All colors, spacing, fonts, and animations come from `tailwind.config.ts` design tokens. No inline hex codes. No arbitrary Tailwind values like `mt-[37px]`. If a token doesn't exist for what's needed, add it to the config first.
+**A3. No invented content.** Don't write copy that wasn't given. The bracketed placeholders (`[ tagline ]`, `[ status one ]`, etc.) are intentional — preserve them exactly. Do not "fill in" a placeholder with plausible content. Do not write a tagline because the spec asks for one. The user will provide real content separately.
 
-**B3. Component file size limit.** No component file over 200 lines. If a component grows past that, split it. The homepage is a thin shell that composes Sidebar, Hero, CaseStudiesSection, etc. — never one giant file.
-
-**B4. Naming conventions.**
-- Components: `PascalCase.tsx` (e.g., `CaseStudyCard.tsx`)
-- Content files: `kebab-case.ts` (e.g., `case-studies.ts`)
-- Utility functions: `camelCase.ts`
-- Types: `PascalCase` interfaces in `/types/*.ts`
-- No abbreviations that aren't standard. Write `caseStudy`, not `cs`.
-
-**B5. Import hygiene.** Dependency flow: `types → content → lib/utils → components → app/pages`. No circular imports. No reaching upward (a component can't import from a page). No importing from a downstream module into an upstream one.
-
-**B6. Component contract consistency.** Components have stable, typed prop interfaces. If a component's props change, update every place it's used in the same commit. No silent breaking changes.
-
-**B7. Data shape consistency.** All content follows the TypeScript types in `/types/content.ts`. If a type changes, update the data file and every component reading it in the same commit.
+**A4. No premature optimization.** Don't lazy-load images that aren't there yet. Don't add bundle splitting before there's a bundle problem. Don't optimize for SEO before content exists. Build it correctly, ship it, then optimize when there's evidence of a problem.
 
 ---
 
-## C. PROCESS — how Claude Code works
+## B. CODE ORGANIZATION
 
-**C1. Commit after every working change.** Each working change is its own git commit with a clear message describing what changed and why. Never batch unrelated changes. Never commit broken code.
+**B1. Content separation.** Every visible string and every piece of structured data lives in `/content/*.ts`. Components import from content. Components NEVER hardcode visible strings. If a component contains literal copy, that's a bug.
 
-**C2. Visual verification.** After any change that affects rendering, run `npm run dev` (or rely on the running dev server) and confirm the affected page renders correctly before committing. If the change crosses pages (shared component), check every affected page.
+Exception: small structural strings that aren't user-visible (like internal aria-labels or dev-only debug strings).
 
-**C3. No commented-out code.** Delete unused code. Git history is the archive. Commented blocks accumulate and rot.
+**B2. Style discipline.** No inline hex codes. Every color must be a named token in `tailwind.config.ts`. If you need a color that isn't a token, add it to the config first, then use it. Tailwind utility classes only — no inline `style={{ color: '#...' }}` ever.
 
-**C4. No console.logs in committed code.** Use them while debugging. Remove before committing.
+Exception: when a color is dynamically computed at runtime from data (rare).
 
-**C5. Honest commit messages.** Commits describe what changed and why, not what the prompt was. Good: `Add bloom hover state to case study cards`. Bad: `Implement user request`.
+**B3. 200-line component limit.** No single component file exceeds 200 lines. If it does, split it. Common splits: heavy data lookups → into `lib/`; subcomponents → into the same `components/cards/` or `components/ui/` folder; complex effects → into a custom hook.
 
-**C6. Show your work before coding.** Before writing code, briefly state: which files will be created or modified, the dependency chain, and any existing code that needs to stay consistent.
+**B4. Naming.** PascalCase for components and types. kebab-case for content files and routes. camelCase for variables and functions. Tailwind tokens are kebab-case (`sage-deep`, not `sageDeep`).
 
----
+**B5. Import hygiene.** Imports order top to bottom: types → content → lib/utils → components → app/pages. Within each group, alphabetize. No deep relative paths (`../../../`); use the `@/*` alias.
 
-## D. VOICE — copy and language
+**B6. Component contract consistency.** Components in the same family take the same shape of props. All `<StickyNote>` instances use the same prop interface. All card components accept similarly-shaped data. Do not invent one-off prop shapes.
 
-**D1. No em dashes. Ever.** Use commas, periods, parens, or colons. If a sentence needs an em dash, rewrite it.
-
-**D2. No AI-isms.** Banned words and phrases:
-- leverage / leveraging / leveraged
-- unlock / unlocking
-- synergize / synergy
-- delve / delving
-- "in today's fast-paced world"
-- "I'm passionate about..."
-- "transformative"
-- "game-changer"
-- "deep dive"
-- "rich tapestry"
-- "navigate the landscape"
-- "elevate"
-- "seamless" (unless literally describing a UX seam)
-
-**D3. Short sentences over long ones.** Prefer two short sentences to one long one. Periods are friends.
-
-**D4. Sentence case headings.** Never title case. Never ALL CAPS. The exceptions are mono labels like `01 — case studies` which use lowercase by convention.
-
-**D5. First person on Aana's voice. Third person on case studies.** "I built this because..." for builds and About. "Cal AI's bottleneck is..." for case studies.
-
-**D6. Placeholder visibility.** All placeholder text uses square brackets and italic styling: `[ tell me what real echo is ]`. Never replace a placeholder silently.
+**B7. Data shape consistency.** Every content file exports a typed array. Every type lives in `types/content.ts`. Adding a new field requires updating the type first, then the data, then any consuming components.
 
 ---
 
-## E. AESTHETIC — visual decisions
+## C. PROCESS
 
-**E1. The v6 design is the floor, not the ceiling.** The portfolio gets better as we go. Never worse. If a change would make the site feel less alive, less editorial, or less "Aana's site," don't ship it.
+**C1. One commit per working change.** Each prompt produces one commit. Each commit message is a one-line description of what was added. Don't squash unrelated changes. Don't commit broken code. Test the build (`npm run build`) before committing.
 
-**E2. The bar is Megan Yap's site (meganyap.me) and beyond.** When making aesthetic decisions, ask: would this look right next to Megan's site? Better? Worse? Aim for "matches and surpasses." Don't settle for "good enough."
+**C2. Visual verification.** When a prompt produces visual output, the dev server should compile clean and the page should render. After major builds, take a screenshot mentally — does it look like the reference?
 
-**E3. Don't undersell. Don't be lazy.** When proposing visual changes, propose the more ambitious option, not the safer one. If there's a 10-minute version and a 60-minute version, propose both and explain the tradeoff. Default toward more craft, not less.
+**C3. No commented-out code.** If code isn't being used, delete it. If you need to preserve it for reference, put it in a markdown file or a git commit note. Production code is live code.
 
-**E4. Lock the v6 design language.**
-- Color palette: cream `#FAFAF7`, forest `#2D4A3E`, dusty rose `#B5797E`, ink blue `#1D2A44`, mustard `#B8821F`, deeper mustard `#6B4810`. Add new colors only via tokens in `tailwind.config.ts`.
-- Fonts: Lora (display, italic), Inter (body), JetBrains Mono (labels), Caveat (handwritten captions). Adding fonts requires explicit approval.
-- No generic gradients (rainbow, neon, vaporwave). Existing gradients (rose card, forest card, ochre card, wooden bookshelf) are part of the design language and stay.
-- No drop shadows except on polaroids and book covers. No glassmorphism. No glow effects. No neon.
+**C4. No console.logs.** No `console.log`, `console.warn`, or `console.error` left in production code. Use proper error handling. If you need to debug, debug, then remove the debug.
 
-**E5. Motion has a purpose.** Every animation justifies itself by guiding attention, revealing content, or signaling state. Decorative animation that doesn't earn its place gets cut.
+**C5. Honest commit messages.** The commit message describes what changed. Do not write "Cleanup" when you actually changed three things. Do not write "Fix" when you added a new feature.
 
-**E6. Mobile-aware from day one.** New components are designed to work at 375px width. They don't have to be pixel-perfect on mobile yet, but they shouldn't break.
+**C6. Show your work before coding.** Before writing component code for a non-trivial prompt, summarize back: file list, dependency chain, tokens you'll add, decisions you're making, things you'll flag. Wait for confirmation. Don't just start writing.
 
 ---
 
-## F. COMMUNICATION — how Claude Code talks to Aana
+## D. VOICE AND COPY
 
-**F1. Direct, no apologies, no padding.** No "I'd be happy to help!" No "Great question!" No "Of course!" Get to the point.
+**D1. No em dashes ever.** Use commas, periods, parentheses, or restructure the sentence. The em dash is banned site-wide and in all generated copy.
 
-**F2. State what you did, what you didn't, what's next.** End every response with a short status: completed, skipped, blocked, recommended next step.
+**D2. Banned AI-isms.** Never use these phrases anywhere in copy or comments: "delve into", "navigate the landscape", "in today's fast-paced world", "leveraging cutting-edge", "synergy", "elevate", "unlock potential", "dive deep", "robust solution", "seamlessly integrated", "transformative experience", "best-in-class", "state-of-the-art", "innovative approach". If output reads like marketing, rewrite it.
 
-**F3. No marketing voice in code comments.** Comments explain why, not what. The code shows what.
+**D3. Short sentences.** When in doubt, cut the sentence in half. The voice is direct. Long sentences are for case studies, not interface copy.
 
-**F4. Use plain language for technical things.** Don't say "we'll instantiate a memoized callback" if you mean "we'll cache the click handler."
+**D4. Sentence case.** All headers, button labels, and body copy are sentence case unless explicitly a mono UI label (where uppercase wide-tracking is the convention). No "Title Case Buttons". No "ALL CAPS HEADINGS" except mono labels.
 
----
+**D5. First-person on builds and About Me. Third-person on case studies.** Builds are *I made this*. Case studies are *the analysis says this*. Maintain this distinction.
 
-## G. DECISIONS — when to ask vs decide
-
-**G1. Ask before any decision affecting 2+ files or that Aana might disagree with.** This includes:
-- Adding a dependency
-- Changing a shared component's API
-- Restructuring folders
-- Renaming exports
-- Changing a design token
-- Anything affecting the homepage layout
-
-**G2. Decide locally and tell.** For changes inside one file or one component, decide and report what was done. No need to ask.
-
-**G3. When ambiguous, ask once and remember.** If Aana says "use Lora for headings," that's the rule for the rest of the project. Don't ask again.
-
-**G4. Surface tradeoffs.** When asking, present 2-3 options with a recommendation and a one-line rationale. Don't dump open-ended questions.
+**D6. Placeholder visibility.** Placeholders are written as `[ bracketed text in italics ]` so Aana sees them and knows what to replace. They do not get filled in by Claude Code.
 
 ---
 
-## H. HONESTY — what to flag
+## E. AESTHETIC
 
-**H1. Flag everything skipped.** If a request had three parts and only two are done, say so explicitly. Never claim false completion.
+**E1. v7 references are the floor, not the ceiling.** `DESIGN_REFERENCE.html` and `ENTRY_REFERENCE.html` represent the agreed-on minimum bar. Components should match the reference. If something can be slightly more refined while staying faithful to the reference, do that. Do not deviate from the reference's structure or colors.
 
-**H2. Flag everything guessed.** If filling in a value, color, or behavior without being told, say "I guessed X — confirm or change."
+**E2. Megan benchmark.** The visual quality target is meganyap.me. The site should feel hand-crafted, editorial, and considered — not template-generated.
 
-**H3. Flag everything that didn't work.** If a build fails, a test fails, an animation looks wrong, a font doesn't load — say so. Don't paper over.
+**E3. Don't undersell, don't be lazy.** If a card has 4 floating SVG motifs in the reference, render 4 motifs. Don't render 2 to "save time". Don't skip the streak pill. Don't simplify the phone screen.
 
-**H4. Flag dependency additions.** If a new npm package gets added, name it, explain what it does, and confirm before installing.
+**E4. Lock palette and fonts.** Do not introduce new colors outside the v7 token set. Do not introduce new fonts. If something looks wrong, the fix is not "add a new color" — it's "use the existing tokens differently".
 
-**H5. Flag design drift.** If a change pushed the site away from the v6 design language, say so.
+**E5. Motion has purpose.** Every animation in v7 is justified — sticky notes float to feel alive, hover-isolation directs attention, cursor expansion gives feedback, firefly is delight. Don't add motion that doesn't earn its place.
 
----
+**E6. Mobile-aware.** The reference works at desktop. Mobile (`max-width: 1024px`) gets a different treatment: no custom cursor, no firefly, single-column layouts, no scrapbook absolute positioning. The references show the mobile fallback CSS — mirror it.
 
-## Cross-cutting rules
+**E7. Floaty, not bouncy.** Motion uses cubic-bezier `(0.45, 0.05, 0.55, 0.95)` with durations 4-7s and 12-25px displacement. Never use `ease-in-out` with short durations and big displacements — that's bouncy and was banned in v7.
 
-**X1. Read before edit.** Never overwrite or restructure existing files without showing the diff first. If a file exists, read it before editing.
-
-**X2. Hierarchy-first fixes.** Trace bugs to their root cause. Fix at the highest abstraction level that resolves it. Don't patch downstream consumers individually.
-
-**X3. Backward compatibility.** Every change preserves existing function signatures, return types, and export names. If a signature must change, update every caller in the same commit.
-
-**X4. No partial implementations.** No "TODO" stubs, no "implement later" placeholders unless explicitly asked. Every function written is complete and working.
-
-**X5. Run before commit.** Never commit code that hasn't been verified to run. If `npm run dev` fails, fix it before committing.
+**E8. Hover isolation is non-negotiable.** Sibling cards must NOT move when one card is hovered. They desaturate, but they do not transform. This was the bug fix from v5 → v6 and must be preserved.
 
 ---
 
-## What "done" looks like
+## F. COMMUNICATION
 
-A piece of work is done when:
-1. The change works in `npm run dev` without errors or warnings
-2. It follows every rule in this file
-3. It's been committed with a clear message
-4. Anything skipped, guessed, or unclear has been flagged
+**F1. Direct, no apologies.** When something works, say it works. When it doesn't, say what's wrong. No padding ("I hope this helps!"), no apology spirals.
 
-Anything less is in progress, not done.
+**F2. Status format.** End every prompt response with three sections: **What was done**, **What was skipped or guessed**, **Next**. Brief. Three to ten lines per section.
+
+**F3. No marketing voice in comments.** Code comments are practical. They explain why, not what. They are not hype.
+
+**F4. Plain language in summaries.** When summarizing what was built, use plain English. Don't say "implemented a robust component architecture" when you mean "built 12 components".
+
+---
+
+## G. DECISIONS
+
+**G1. Ask before any 2+ file change that affects shape.** If a decision changes the shape of multiple files (e.g., adding a new field to a type, restructuring a folder, renaming a component family), confirm with Aana before doing it.
+
+**G2. Decide locally.** If a decision affects only one component or one styling detail, decide and flag it in the summary. Don't ask permission to pick between two equivalent choices.
+
+**G3. Ambiguous → ask once.** If a prompt is ambiguous, ask one round of clarifying questions, then proceed. Don't ask serially.
+
+**G4. Surface tradeoffs.** When you make a decision with tradeoffs, name the tradeoff in the summary. "I chose X over Y because Z. Y would be better if we wanted W."
+
+---
+
+## H. HONESTY
+
+**H1. Flag what was skipped.** If a prompt asked for 8 things and you did 7, say so explicitly. Don't bury it.
+
+**H2. Flag what was guessed.** If a value, content, or behavior wasn't specified and you made a choice, name what you chose. Aana can correct.
+
+**H3. Flag what didn't work.** If something doesn't quite render right, doesn't pass the build, or has a known issue — say so. Do not deliver work pretending it's complete.
+
+**H4. Flag any dependency additions.** If you add a new package to `package.json`, say so explicitly with the reason. The default policy is "no new dependencies without justification."
+
+**H5. Flag design drift.** If you ended up making something that doesn't match the reference — even slightly — say so. Reference deviations require Aana's signoff.
+
+---
+
+## CROSS-CUTTING
+
+**X1. Read before edit.** Always read the file you're about to modify (use the `view` tool) immediately before editing. View output is stale after any successful edit — re-view before another edit on the same file.
+
+**X2. Hierarchy-first fixes.** When something looks wrong, fix at the highest reasonable level. CSS variable wrong → fix the variable. Component styling wrong → fix the component, not the page that uses it. Resist the urge to patch downstream.
+
+**X3. Backward compatibility.** When changing a type or content shape, update all consumers in the same commit. Do not leave half-migrations.
+
+**X4. No partial implementations.** Don't ship a component that's 80% styled and "we'll fix the rest later". Either build it complete or don't build it.
+
+**X5. Run before commit.** `npx tsc --noEmit` and `npm run build` must both pass before commit. If they don't, the commit waits.
+
+---
+
+## V7-SPECIFIC RULES
+
+**V1. The two design references are authoritative.** `DESIGN_REFERENCE.html` for the homepage, `ENTRY_REFERENCE.html` for the entry page. When in doubt, the references win over this file.
+
+**V2. No animation libraries.** No framer-motion, no GSAP, no anime.js, no react-spring. All motion is CSS transitions and keyframes plus targeted JavaScript for cursor follow, dispersion, and click handlers.
+
+**V3. The sticky-note + inner-card pattern is universal.** Every card in every grid uses `<StickyNote>` as the outer wrapper. Don't invent a different pattern for one section.
+
+**V4. Hover isolation must work.** When one card is hovered, ONLY that card moves. Test this manually in every grid before committing.
+
+**V5. Cursor is JavaScript, not pure CSS.** The custom cursor needs JavaScript to follow the mouse smoothly. There's no pure-CSS shortcut here. Use `requestAnimationFrame` with lerp factor `0.18`.
+
+**V6. Hide cursor and firefly on mobile.** `max-width: 1024px` → both are hidden. Native cursor returns. All `[data-cursor]` elements get `cursor: pointer` for tap feedback.
+
+**V7. Two-page architecture.** `/` is the entry page. `/home` is the homepage. There's no shared chrome between them — they're independent pages with independent palettes and behaviors.
