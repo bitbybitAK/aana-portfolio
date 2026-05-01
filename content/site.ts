@@ -1,150 +1,76 @@
-import type { SiteContent } from "@/types/content";
+import type { SiteContent } from '@/types/content';
 
 export const site: SiteContent = {
   meta: {
-    title: "Aana Khanduri",
+    title: 'Aana Khanduri',
     description:
-      "Field Notebook Vol. I. Product analytics, data projects, personal builds.",
+      'Field Notebook Vol. I. Product analytics, data projects, personal builds.',
   },
   sidebar: {
-    monogram: "ak.",
-    name: "Aana Khanduri",
-    tagline: "product analyst · ms cs",
-    bio: "I work at the seam between data and decisions. Strategy first, then the data, then I ship something a team can act on.",
-    exploreLabel: "explore",
-    findMeAtLabel: "find me at",
-    location: { city: "san francisco" },
-  },
-  hero: {
-    greetingPrefix: "Hi, I'm ",
-    nameAccent: "Aana",
-    greetingSuffix: ".",
-    thesis:
-      "I read the strategy first, then the data, then I ship something a team can act on.",
-    bio: [
-      {
-        type: "text",
-        value:
-          "Master's in CS, working as a product analyst. Most recently at ",
-      },
-      { type: "link", label: "@yourcompany", href: "#" },
-      { type: "text", value: ". Previously " },
-      { type: "link", label: "@another", href: "#" },
-      { type: "text", value: " and " },
-      { type: "link", label: "@third", href: "#" },
-      { type: "text", value: ". Lived in " },
-      { type: "link", label: "New York", href: "#" },
-      { type: "text", value: ", now in " },
-      { type: "link", label: "San Francisco", href: "#" },
-      { type: "text", value: "." },
+    name: 'Aana Khanduri',
+    taglinePlaceholder: "[ a tagline you'll add, your own ]",
+    exploreLabel: 'explore',
+    navLinks: [
+      { number: '01', label: 'About me', sectionId: 'about' },
+      { number: '02', label: 'Builds', sectionId: 'builds' },
+      { number: '03', label: 'Analytics projects', sectionId: 'analytics' },
+      { number: '04', label: 'Case studies', sectionId: 'case-studies' },
     ],
-    ctas: [
-      { label: "→ see the work", href: "#case-studies" },
-      { label: "→ about", href: "#about" },
-    ],
-    polaroids: [
-      {
-        id: "polaroid-hero-1",
-        gradient: { from: "#2D4A3E", to: "#4A6B5E", angle: 135 },
-        caption: "somewhere in '26",
-        captionColor: "forest",
-      },
-      {
-        id: "polaroid-hero-2",
-        gradient: { from: "#1D2A44", to: "#3D4A6E", angle: 135 },
-        caption: "east village",
-        captionColor: "ink",
-      },
-      {
-        id: "polaroid-hero-3",
-        gradient: { from: "#B8821F", to: "#6B4810", angle: 135 },
-        caption: "mission, golden hour",
-        captionColor: "mustard-deep",
-      },
-    ],
+    findMeAtLabel: 'find me at',
+    currentlyWorkingOnLabel: 'currently working on',
+    status: {
+      rotationMs: 6000,
+      messages: [
+        '[ status one ]',
+        '[ status two ]',
+        '[ status three ]',
+        '[ status four ]',
+      ],
+    },
   },
   topbar: {
-    entry: "entry 01 · home",
-    volume: "field notebook vol. i",
+    left: 'field notebook · vol. i',
+    right: 'homepage',
   },
   footer: {
-    built: "built nov 2026 · field notebook vol. i",
-    signature: "aana khanduri",
-  },
-  status: {
-    rotationMs: 6000,
-    states: [
-      {
-        label: "/ working on",
-        text: "finishing the cal ai case study",
-        color: "rose",
-      },
-      {
-        label: "/ reading",
-        text: "trustworthy online controlled experiments",
-        color: "forest",
-      },
-      {
-        label: "/ listening",
-        text: "lenny's podcast, slow churn ep.",
-        color: "ink",
-      },
-      {
-        label: "/ thinking",
-        text: "why activation thresholds beat funnels",
-        color: "mustard-deep",
-      },
-    ],
-  },
-  visitor: {
-    states: ["leave a trace ↗", "thanks for visiting ✿", "say hi via email →"],
+    left: 'field notebook · vol. i',
+    right: 'aana khanduri',
   },
   sections: {
-    caseStudies: {
-      number: "01",
-      label: "case studies",
-      intro:
-        "How I think about consumer products. Each one starts with the strategy and ends with a recommendation.",
-      seeAll: { label: "all 6 →", href: "#" },
-    },
-    analytics: {
-      number: "02",
-      label: "analytics",
-      intro: "How I work with data. SQL, Python, and the occasional rabbit hole.",
-      seeAll: { label: "see all →", href: "#" },
+    about: {
+      number: '01',
+      label: 'about me',
     },
     builds: {
-      number: "03",
-      label: "builds",
-      intro: "Things I made because I wanted them to exist.",
-      seeAll: { label: "see all →", href: "#" },
+      number: '02',
+      label: 'builds',
+      title: 'Things I made because I wanted them to exist.',
+      summary:
+        'Two cards. Both in active use. Real screen recordings drop in when I record them.',
     },
-    reading: {
-      number: "04",
-      label: "reading list",
-      intro:
-        "Hover to flip. Books that actually changed how I think about the work.",
+    analyticsProjects: {
+      number: '03',
+      label: 'analytics projects',
+      title: 'Smaller experiments. Code on github.',
+      summary:
+        'Where I actually work with data. SQL, Python, a few rabbit holes.',
     },
-    fieldNotes: {
-      number: "05",
-      label: "field notes",
-      intro:
-        "Hot takes from my notebook. Most of these are wrong. A few might be useful.",
+    caseStudies: {
+      number: '04',
+      label: 'case studies',
+      title: 'How I think about consumer products.',
+      summary:
+        'Each one starts with the strategy and ends with a recommendation. Hover any card to see what it analyzes.',
     },
-    fieldNotesFooter: {
-      label: "read all 23 notes",
-      href: "#",
-      cadence: "updated weekly",
-    },
-    about: {
-      number: "06",
-      label: "about me",
-      seeAll: { label: "read the long version →", href: "#" },
+    comingSoon: {
+      number: '05',
+      label: 'coming soon',
+      body: 'A new section is being written. Check back.',
     },
   },
   socials: [
-    { label: "email", url: "#" },
-    { label: "linkedin", url: "#" },
-    { label: "github", url: "#" },
+    { label: 'email', url: '#' },
+    { label: 'linkedin', url: '#' },
+    { label: 'github', url: '#' },
   ],
 };

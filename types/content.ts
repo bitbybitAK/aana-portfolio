@@ -1,25 +1,24 @@
-export type RoomColor =
-  | "forest"
-  | "forest-light"
-  | "rose"
-  | "rose-deep"
-  | "ink"
-  | "mustard"
-  | "mustard-deep";
+// v7 content types. Single source of truth for every content/*.ts file.
 
-export type BookGenre = "non-fiction" | "fiction" | "essays";
+export type Accent =
+  | 'sage'
+  | 'pink'
+  | 'powder'
+  | 'honey'
+  | 'lilac'
+  | 'peach';
 
-export type ChartType = "bar" | "line";
+// Builds only ever sit on pink or lilac stages; narrow the type to keep
+// content authoring honest.
+export type BuildAccent = 'pink' | 'lilac';
 
-export type BuildStatus = "shipped" | "in-progress" | "shelved";
+export type CaseStudyTag = 'flagship' | 'compact' | 'video';
 
-export type CaseStudyVariant = "flagship" | "compact";
+export type ChartType = 'bar' | 'line';
 
-export type CaseStudyStatus = "published" | "draft";
+export type BuildStatus = 'shipped' | 'in-progress' | 'shelved';
 
-export type BioSegment =
-  | { type: "text"; value: string }
-  | { type: "link"; label: string; href: string };
+export type CaseStudyStatus = 'published' | 'draft';
 
 export interface BuildLink {
   label: string;
@@ -31,68 +30,52 @@ export interface SocialLink {
   url: string;
 }
 
-export interface CtaLink {
-  label: string;
-  href: string;
-}
-
-export interface SeeAllLink {
-  label: string;
-  href: string;
-}
-
-export interface StatusState {
-  label: string;
-  text: string;
-  color: RoomColor;
-}
-
-export interface SectionMeta {
+export interface NavLink {
   number: string;
   label: string;
-  intro?: string;
-  seeAll?: SeeAllLink;
+  sectionId: string;
 }
 
-export interface CaseStudySection {
+export interface HeroPhoto {
   id: string;
-  heading: string;
-  body: string;
-}
-
-export interface CaseStudyMetadata {
-  number: string;
-  label: string;
+  slot: 1 | 2 | 3 | 4;
+  accent: Accent;
+  decor: string;
+  caption: string;
+  cursorText: string;
 }
 
 export interface CaseStudy {
   id: string;
   slug: string;
+  accent: Accent;
+  tags: CaseStudyTag[];
+  number: string;
+  logo: string;
   title: string;
-  dek: string;
-  variant: CaseStudyVariant;
-  metadata: CaseStudyMetadata;
-  sections: CaseStudySection[];
+  expandParagraphs: string[];
+  readCue: string;
   status: CaseStudyStatus;
-  color: RoomColor;
 }
 
 export interface Build {
   id: string;
   slug: string;
+  accent: BuildAccent;
+  number: string;
   title: string;
   dek: string;
   status: BuildStatus;
   stack: string[];
   links: BuildLink[];
-  color: RoomColor;
 }
 
 export interface AnalyticsProject {
   id: string;
   slug: string;
+  number: string;
   title: string;
-  dek: string;
+  why: string;
   stack: string[];
   githubUrl: string;
   chartType: ChartType;
@@ -100,81 +83,27 @@ export interface AnalyticsProject {
 
 export interface Book {
   id: string;
+  slot: 'b1' | 'b2' | 'b3' | 'b4';
+  accent: Accent;
+  genre: string;
   title: string;
   author: string;
-  genre: BookGenre;
   opinion: string;
-  coverColor: RoomColor;
 }
 
 export interface FieldNote {
   id: string;
   topic: string;
-  topicColor: RoomColor;
+  topicColor: string;
   quote: string;
 }
 
-export interface PolaroidGradient {
-  from: string;
-  to: string;
-  angle: number;
-}
-
-export interface Polaroid {
+export interface Community {
   id: string;
-  gradient: PolaroidGradient;
-  caption: string;
-  captionColor: RoomColor;
-}
-
-export interface AboutContent {
-  short: string;
-  longTeaser: string;
-}
-
-export interface FieldNotesFooter {
-  label: string;
-  href: string;
-  cadence: string;
-}
-
-export interface SidebarContent {
-  monogram: string;
+  icon: string;
+  accent: Accent;
   name: string;
-  tagline: string;
-  bio: string;
-  exploreLabel: string;
-  findMeAtLabel: string;
-  location: { city: string };
-}
-
-export interface HeroContent {
-  greetingPrefix: string;
-  nameAccent: string;
-  greetingSuffix: string;
-  thesis: string;
-  bio: BioSegment[];
-  ctas: CtaLink[];
-  polaroids: Polaroid[];
-}
-
-export interface TopbarContent {
-  entry: string;
-  volume: string;
-}
-
-export interface FooterContent {
-  built: string;
-  signature: string;
-}
-
-export interface StatusContent {
-  rotationMs: number;
-  states: StatusState[];
-}
-
-export interface VisitorContent {
-  states: string[];
+  body: string;
 }
 
 export interface MetaContent {
@@ -182,32 +111,65 @@ export interface MetaContent {
   description: string;
 }
 
+export interface SidebarStatus {
+  rotationMs: number;
+  messages: string[];
+}
+
+export interface SidebarContent {
+  name: string;
+  taglinePlaceholder: string;
+  exploreLabel: string;
+  navLinks: NavLink[];
+  findMeAtLabel: string;
+  currentlyWorkingOnLabel: string;
+  status: SidebarStatus;
+}
+
+export interface AboutContent {
+  taglineLead: string;
+  taglineBody: string;
+  communitiesSubhead: string;
+  readingSubhead: string;
+  heroPhotos: HeroPhoto[];
+}
+
+export interface TopbarContent {
+  left: string;
+  right: string;
+}
+
+export interface FooterContent {
+  left: string;
+  right: string;
+}
+
+export interface SectionHeader {
+  number: string;
+  label: string;
+  title?: string;
+  summary?: string;
+}
+
+export interface ComingSoonContent {
+  number: string;
+  label: string;
+  body: string;
+}
+
 export interface SectionsContent {
-  caseStudies: SectionMeta;
-  analytics: SectionMeta;
-  builds: SectionMeta;
-  reading: SectionMeta;
-  fieldNotes: SectionMeta;
-  fieldNotesFooter: FieldNotesFooter;
-  about: SectionMeta;
+  about: SectionHeader;
+  builds: SectionHeader;
+  analyticsProjects: SectionHeader;
+  caseStudies: SectionHeader;
+  comingSoon: ComingSoonContent;
 }
 
 export interface SiteContent {
   meta: MetaContent;
   sidebar: SidebarContent;
-  hero: HeroContent;
   topbar: TopbarContent;
   footer: FooterContent;
-  status: StatusContent;
-  visitor: VisitorContent;
   sections: SectionsContent;
   socials: SocialLink[];
-}
-
-export interface Community {
-  id: string
-  icon: string
-  accent: 'sage' | 'pink' | 'powder' | 'honey' | 'lilac' | 'peach'
-  name: string
-  body: string
 }

@@ -52,8 +52,8 @@ button,
    ============================================================ */
 
 @keyframes floaty-slow {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-12px); }
+  0%, 100% { transform: var(--r, rotate(0deg)) translateY(0); }
+  50%      { transform: var(--r, rotate(0deg)) translateY(-12px); }
 }
 
 @keyframes float-t1 {
@@ -250,4 +250,259 @@ button,
 [data-cursor] {
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* ============================================================
+   CURSOR DOT
+   Single fixed-position dot following the mouse via JS lerp.
+   Expands into a pastel-pink pill when [data-cursor] is hovered.
+   ============================================================ */
+
+.cursor-dot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  margin-top: -7px;
+  background: theme('colors.pink-deep');
+  border-radius: 9999px;
+  box-shadow: theme('boxShadow.cursor');
+  font-family: theme('fontFamily.mono');
+  font-size: 0;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.4s,
+    border-radius 0.4s,
+    background 0.3s,
+    color 0.3s;
+}
+
+.cursor-dot.expanded {
+  width: auto;
+  height: auto;
+  margin-left: 0;
+  margin-top: 0;
+  padding: 14px 26px;
+  background: theme('colors.pink');
+  color: theme('colors.pink-darker');
+  font-size: 11px;
+  border-radius: 9999px;
+  box-shadow: theme('boxShadow.cursor-expanded');
+}
+
+@media (max-width: 1024px) {
+  .cursor-dot { display: none; }
+}
+
+/* ============================================================
+   FIREFLY — bottom-edge mascot with click bubble
+   firefly-path and firefly-glow keyframes are defined above.
+   ============================================================ */
+
+.firefly {
+  position: fixed;
+  width: 52px;
+  height: 42px;
+  cursor: none;
+  pointer-events: auto;
+  z-index: 60;
+  animation: firefly-path 38s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.firefly svg { display: block; pointer-events: none; }
+.firefly .firefly-body    { fill: theme('colors.ink-2'); }
+.firefly .firefly-wing    { fill: theme('colors.border'); }
+.firefly .firefly-antenna { stroke: theme('colors.ink-2'); }
+
+/* The glow keeps reference-faithful values; no token exists for this exact yellow. */
+.firefly .firefly-glow {
+  fill: #F2D67A;
+  animation: firefly-glow 2.6s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 9px rgba(242, 206, 116, 0.85))
+    drop-shadow(0 0 20px rgba(232, 177, 75, 0.55));
+}
+
+@media (max-width: 1024px) {
+  .firefly { display: none; }
+}
+
+.firefly-msg {
+  position: fixed;
+  font-family: theme('fontFamily.inter');
+  font-size: 12px;
+  font-weight: 500;
+  background: theme('colors.honey');
+  color: theme('colors.honey-darker');
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid theme('colors.honey-deep');
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+  max-width: 220px;
+  line-height: 1.35;
+  z-index: 70;
+  white-space: normal;
+  text-align: center;
+  transform: translateY(4px);
+  /* honey-tinted alpha shadow; no token equivalent. */
+  box-shadow: 0 6px 18px rgba(212, 185, 126, 0.30);
+}
+
+.firefly-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.firefly-msg::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: theme('colors.honey');
+  border-right: 1px solid theme('colors.honey-deep');
+  border-bottom: 1px solid theme('colors.honey-deep');
+}
+
+/* ============================================================
+   SCENE STAGES — 4 case-study gradients.
+   The accent stop uses theme(); the fog stop has no token equivalent
+   (flagged — easy to lift to a token if a fog scale is added).
+   ============================================================ */
+
+.scene-stage-cal-ai   { background: linear-gradient(135deg, theme('colors.sage')   0%, #D8E4D2 100%); }
+.scene-stage-hopper   { background: linear-gradient(135deg, theme('colors.powder') 0%, #DDE6EE 100%); }
+.scene-stage-hinge    { background: linear-gradient(135deg, theme('colors.pink')   0%, #F5DCDF 100%); }
+.scene-stage-duolingo { background: linear-gradient(135deg, theme('colors.honey')  0%, #F5E6C2 100%); }
+
+/* ============================================================
+   BUILD STAGES — both stops are existing tokens.
+   ============================================================ */
+
+.build-stage-baddie { background: linear-gradient(135deg, theme('colors.pink')  0%, theme('colors.peach') 100%); }
+.build-stage-digest { background: linear-gradient(135deg, theme('colors.lilac') 0%, theme('colors.powder') 100%); }
+
+/* ============================================================
+   HERO PHOTOS — scrapbook layout.
+   Per-photo rotation is set inline via the --r CSS var so the
+   floaty-slow keyframe preserves it. Hover lifts and straightens.
+   ============================================================ */
+
+.hero-photo {
+  position: absolute;
+  border-radius: 14px;
+  box-shadow: theme('boxShadow.card');
+  overflow: hidden;
+  cursor: none;
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s,
+    box-shadow 0.5s,
+    z-index 0s;
+  animation: floaty-slow 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.hero-photos:hover .hero-photo { filter: saturate(0.5) brightness(0.94); }
+
+.hero-photos .hero-photo:hover {
+  filter: none !important;
+  transform: rotate(0deg) scale(1.04) translateY(-12px) !important;
+  z-index: 10 !important;
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.16);
+  animation-play-state: paused;
+}
+
+.hero-photo-decor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: theme('fontFamily.lora');
+  font-style: italic;
+  font-size: 16px;
+}
+
+.hero-photo-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  background: rgba(26, 26, 26, 0.86);
+  color: theme('colors.cream');
+  font-family: theme('fontFamily.mono');
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  text-align: center;
+}
+
+.hero-photo:hover .hero-photo-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   BOOK FLIP CARDS — 3D flip on hover.
+   Rotation set inline via --r so floaty-slow preserves it.
+   ============================================================ */
+
+.book-flip {
+  perspective: 1400px;
+  cursor: none;
+  animation: floaty-slow 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.book-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.book-flip:hover .book-flip-inner { transform: rotateY(180deg); }
+
+.book-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 4px 8px 8px 4px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 7px 9px 26px rgba(0, 0, 0, 0.14);
+}
+
+.book-face.book-front {
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.12), 7px 9px 26px rgba(0, 0, 0, 0.14);
+}
+
+.book-face.book-back {
+  transform: rotateY(180deg);
+  background: theme('colors.cream');
 }
