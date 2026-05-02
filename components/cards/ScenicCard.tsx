@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { CaseStudy, CaseStudyTag } from '@/types/content';
 
@@ -23,7 +24,10 @@ const TAG_CLASS: Record<CaseStudyTag, string> = {
 
 export default function ScenicCard({ study, stage }: ScenicCardProps) {
   return (
-    <div className="bg-paper rounded-[14px] overflow-hidden relative">
+    <Link
+      href={`/case-studies/${study.slug}`}
+      className="bg-paper rounded-[14px] overflow-hidden relative block no-underline text-ink"
+    >
       <div
         className={`relative h-[320px] flex items-center justify-center overflow-hidden ${STAGE_CLASS[study.accent]}`}
       >
@@ -62,6 +66,6 @@ export default function ScenicCard({ study, stage }: ScenicCardProps) {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

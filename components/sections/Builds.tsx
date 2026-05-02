@@ -11,7 +11,7 @@ const BUILD_TILTS: Tilt[] = ['t1', 't2'];
 
 const STAGES: Record<string, ReactNode> = {
   'baddie-in-progress': <BaddieStage />,
-  'weekly-digest-automation': <DigestStage />,
+  'weekly-digest': <DigestStage />,
 };
 
 function BaddieStage() {

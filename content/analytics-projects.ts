@@ -2,8 +2,8 @@ import type { AnalyticsProject } from '@/types/content';
 
 export const analyticsProjects: AnalyticsProject[] = [
   {
-    id: 'book-of-the-month-recommender',
-    slug: 'book-of-the-month-recommender',
+    id: 'botm-recommender',
+    slug: 'botm-recommender',
     number: '01',
     title: 'Book-of-the-month recommender',
     why: 'A small system that reads my Goodreads and surfaces a monthly pick. Same pattern as content recs at scale, just for one user.',

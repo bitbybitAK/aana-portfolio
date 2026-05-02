@@ -1,8 +1,15 @@
+import Link from 'next/link';
+import type { ReactNode } from 'react';
 import type { AnalyticsProject } from '@/types/content';
 
-export default function ProjectCard({ project }: { project: AnalyticsProject }) {
+const PLACEHOLDER_ID = 'placeholder-third-project';
+
+const cardClasses =
+  'bg-paper rounded-[12px] px-6 py-5 flex flex-col gap-3 min-h-[240px] block no-underline text-ink';
+
+function CardBody({ project }: { project: AnalyticsProject }) {
   return (
-    <div className="bg-paper rounded-[12px] px-6 py-5 flex flex-col gap-3 min-h-[240px]">
+    <>
       <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-3">
         no. {project.number}
       </div>
@@ -22,12 +29,22 @@ export default function ProjectCard({ project }: { project: AnalyticsProject }) 
           </span>
         ))}
       </div>
-      <a
-        href={project.githubUrl}
-        className="font-mono text-[11px] tracking-[0.04em] text-sage-darker no-underline border-b border-sage-darker self-start pb-px mt-1.5"
-      >
-        → github
-      </a>
-    </div>
+    </>
+  );
+}
+
+export default function ProjectCard({ project }: { project: AnalyticsProject }): ReactNode {
+  if (project.id === PLACEHOLDER_ID) {
+    return (
+      <div className={cardClasses}>
+        <CardBody project={project} />
+      </div>
+    );
+  }
+
+  return (
+    <Link href={`/projects/${project.slug}`} className={cardClasses}>
+      <CardBody project={project} />
+    </Link>
   );
 }

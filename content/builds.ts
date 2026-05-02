@@ -13,8 +13,8 @@ export const builds: Build[] = [
     links: [],
   },
   {
-    id: 'weekly-digest-automation',
-    slug: 'weekly-digest-automation',
+    id: 'weekly-digest',
+    slug: 'weekly-digest',
     accent: 'lilac',
     number: '02',
     title: 'Weekly digest automation',

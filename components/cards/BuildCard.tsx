@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import type { Build, BuildAccent, BuildStatus } from '@/types/content';
 
@@ -25,7 +26,10 @@ const STATUS_LABEL: Record<BuildStatus, string> = {
 
 export default function BuildCard({ build, stage }: BuildCardProps) {
   return (
-    <div className="bg-paper rounded-[14px] overflow-hidden relative">
+    <Link
+      href={`/builds/${build.slug}`}
+      className="bg-paper rounded-[14px] overflow-hidden relative block no-underline text-ink"
+    >
       <div
         className={`relative h-[280px] flex items-center justify-center overflow-hidden ${STAGE_CLASS[build.accent]}`}
       >
@@ -47,6 +51,6 @@ export default function BuildCard({ build, stage }: BuildCardProps) {
         </div>
         <div className="text-[14px] leading-[1.65] text-ink-2">{build.dek}</div>
       </div>
-    </div>
+    </Link>
   );
 }
