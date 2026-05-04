@@ -9,6 +9,7 @@ export const readingList: Book[] = [
     title: 'Yesteryear',
     author: 'Caro Claire Burke',
     opinion: 'My jaw was on the floor the entire time.',
+    coverImage: '/books/book-yesteryear.jpg',
   },
   {
     id: 'the-great-alone',
@@ -18,6 +19,7 @@ export const readingList: Book[] = [
     title: 'The Great Alone',
     author: 'Kristin Hannah',
     opinion: 'Cried twice, no regrets.',
+    coverImage: '/books/book-the-great-alone.jpg',
   },
   {
     id: 'artificial-unintelligence',
@@ -27,6 +29,7 @@ export const readingList: Book[] = [
     title: 'Artificial Unintelligence',
     author: 'Meredith Broussard',
     opinion: "A fun reality check on why tech doesn't fix everything.",
+    coverImage: '/books/book-artificial-unintelligence.jpg',
   },
   {
     id: 'every-vow-you-break',
@@ -36,5 +39,6 @@ export const readingList: Book[] = [
     title: 'Every Vow You Break',
     author: 'Peter Swanson',
     opinion: 'Could not put it down, did not trust anyone in it.',
+    coverImage: '/books/book-every-vow-you-break.jpg',
   },
 ];

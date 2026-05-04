@@ -41,6 +41,7 @@ export interface HeroPhoto {
   slot: 1 | 2 | 3 | 4;
   accent: Accent;
   decor: string;
+  photo: string;
   caption: string;
   cursorText: string;
 }
@@ -91,6 +92,7 @@ export interface Book {
   title: string;
   author: string;
   opinion: string;
+  coverImage: string;
 }
 
 export interface FieldNote {

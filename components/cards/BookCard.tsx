@@ -1,14 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { Accent, Book } from '@/types/content';
-
-const COVER_CLASS: Record<Accent, string> = {
-  sage:   'bg-sage',
-  pink:   'bg-pink',
-  powder: 'bg-powder',
-  honey:  'bg-honey',
-  lilac:  'bg-lilac',
-  peach:  'bg-peach',
-};
+import type { Book } from '@/types/content';
 
 const SLOT: Record<Book['slot'], { rotate: string; delay: string }> = {
   b1: { rotate: '-1.5deg', delay: '0s'   },
@@ -26,23 +17,25 @@ export default function BookCard({ book }: { book: Book }) {
   };
   return (
     <div
-      className="book-flip h-80"
+      className="book-flip h-80 group"
       data-cursor=""
       data-cursor-text="flip"
       style={style}
     >
       <div className="book-flip-inner">
-        <div className={`book-face book-front ${COVER_CLASS[book.accent]} text-ink`}>
-          <div className="font-mono text-[9px] uppercase tracking-[0.1em] opacity-70">
-            {book.genre}
-          </div>
-          <div>
-            <div className="font-lora text-[22px] leading-[1.15] font-normal -tracking-[0.002em]">
-              {book.title}
-            </div>
-            <div className="font-inter text-[11px] italic mt-1.5 opacity-75">
-              {book.author}
-            </div>
+        <div className="book-face book-front text-ink">
+          <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
+            <img
+              src={book.coverImage}
+              alt={`${book.title} by ${book.author}`}
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
+            <div className="absolute inset-0 bg-cream-2 opacity-[0.08] group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ boxShadow: 'inset 4px 0 0 rgba(0, 0, 0, 0.12)' }}
+            />
           </div>
         </div>
         <div className="book-face book-back">

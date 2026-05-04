@@ -51,7 +51,12 @@ export default function HeroPhotos() {
             data-cursor-text={photo.cursorText}
             style={style}
           >
-            <div className="hero-photo-decor">{photo.decor}</div>
+            <img
+              src={photo.photo}
+              alt={photo.caption}
+              className="absolute inset-0 w-full h-full object-cover"
+              draggable={false}
+            />
             <div className="hero-photo-caption">{photo.caption}</div>
           </div>
         );
