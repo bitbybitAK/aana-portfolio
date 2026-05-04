@@ -70,8 +70,8 @@ export const site: SiteContent = {
     },
   },
   socials: [
-    { label: 'email', url: '#' },
-    { label: 'linkedin', url: '#' },
-    { label: 'github', url: '#' },
+    { label: 'email', url: 'mailto:aana.khanduri.05@gmail.com' },
+    { label: 'linkedin', url: 'https://www.linkedin.com/in/aanakhanduri/' },
+    { label: 'github', url: 'https://github.com/bitbybitAK' },
   ],
 };

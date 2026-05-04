@@ -92,17 +92,22 @@ export default function Sidebar() {
           {site.sidebar.findMeAtLabel}
         </div>
         <div className="flex gap-3.5 flex-wrap">
-          {site.socials.map((social) => (
-            <a
-              key={social.label}
-              href={social.url}
-              data-cursor=""
-              data-cursor-text={social.label}
-              className="text-[13px] text-ink no-underline border-b border-transparent hover:border-sage-darker hover:text-sage-darker transition-colors duration-300"
-            >
-              {social.label}
-            </a>
-          ))}
+          {site.socials.map((social) => {
+            const isExternal = !social.url.startsWith('mailto:');
+            return (
+              <a
+                key={social.label}
+                href={social.url}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+                data-cursor=""
+                data-cursor-text={social.label}
+                className="text-[13px] text-ink no-underline border-b border-transparent hover:border-honey-deep hover:text-honey-deep transition-colors duration-300"
+              >
+                {social.label}
+              </a>
+            );
+          })}
         </div>
       </div>
 
