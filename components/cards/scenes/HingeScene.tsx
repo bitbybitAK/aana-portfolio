@@ -1,6 +1,6 @@
 import Motif from '@/components/ui/Motif';
 
-export default function HingeScene() {
+export default function HingeScene({ video }: { video?: string }) {
   return (
     <>
       <Motif className="top-[30px] left-[30px]">
@@ -38,16 +38,31 @@ export default function HingeScene() {
 
       <div className="w-[168px] h-[296px] bg-ink rounded-[26px] p-[5px] shadow-phone z-[2] relative overflow-hidden">
         <div className="w-full h-full rounded-[21px] bg-gradient-to-b from-pink-deep to-pink relative overflow-hidden">
-          <div className="absolute top-[32px] left-[10%] w-[80%] bg-cream rounded-xl p-2 shadow-lg animate-hinge-swipe-1">
-            <div className="w-full h-[92px] bg-gradient-to-br from-peach to-peach-deep rounded-md mb-1.5" />
-            <div className="font-lora text-[11px] text-ink">Profile 01</div>
-            <div className="text-[8px] text-ink-3">two truths and a lie</div>
-          </div>
-          <div className="absolute top-[60px] left-[10%] w-[80%] bg-cream rounded-xl p-2 -z-10 shadow-lg animate-hinge-swipe-2">
-            <div className="w-full h-[92px] bg-gradient-to-br from-lilac to-lilac-deep rounded-md mb-1.5" />
-            <div className="font-lora text-[11px] text-ink">Profile 02</div>
-            <div className="text-[8px] text-ink-3">my simple pleasures</div>
-          </div>
+          {video ? (
+            <video
+              src={video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 w-full h-full object-cover"
+              aria-label="Hinge App Store preview"
+            />
+          ) : (
+            <>
+              <div className="absolute top-[32px] left-[10%] w-[80%] bg-cream rounded-xl p-2 shadow-lg animate-hinge-swipe-1">
+                <div className="w-full h-[92px] bg-gradient-to-br from-peach to-peach-deep rounded-md mb-1.5" />
+                <div className="font-lora text-[11px] text-ink">Profile 01</div>
+                <div className="text-[8px] text-ink-3">two truths and a lie</div>
+              </div>
+              <div className="absolute top-[60px] left-[10%] w-[80%] bg-cream rounded-xl p-2 -z-10 shadow-lg animate-hinge-swipe-2">
+                <div className="w-full h-[92px] bg-gradient-to-br from-lilac to-lilac-deep rounded-md mb-1.5" />
+                <div className="font-lora text-[11px] text-ink">Profile 02</div>
+                <div className="text-[8px] text-ink-3">my simple pleasures</div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

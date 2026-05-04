@@ -59,6 +59,7 @@ export interface CaseStudy {
   readCue: string;
   status: CaseStudyStatus;
   comingSoon?: boolean;
+  video?: string;
 }
 
 export interface Build {
@@ -71,6 +72,7 @@ export interface Build {
   status: BuildStatus;
   stack: string[];
   links: BuildLink[];
+  video?: string;
 }
 
 export interface AnalyticsProject {

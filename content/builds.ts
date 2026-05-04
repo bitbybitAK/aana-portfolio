@@ -11,6 +11,7 @@ export const builds: Build[] = [
     status: 'in-progress',
     stack: [],
     links: [],
+    video: '/videos/baddie-splash.mp4',
   },
   {
     id: 'weekly-digest',

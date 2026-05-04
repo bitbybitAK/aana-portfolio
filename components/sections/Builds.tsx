@@ -5,16 +5,18 @@ import BuildCard from '@/components/cards/BuildCard';
 import PhoneFrame from '@/components/ui/PhoneFrame';
 import Motif from '@/components/ui/Motif';
 import type { Tilt } from '@/components/cards/StickyNote';
+import type { Build } from '@/types/content';
 import type { ReactNode } from 'react';
 
 const BUILD_TILTS: Tilt[] = ['t1', 't2'];
 
-const STAGES: Record<string, ReactNode> = {
-  'baddie-in-progress': <BaddieStage />,
-  'weekly-digest': <DigestStage />,
-};
+function buildStage(build: Build): ReactNode {
+  if (build.id === 'baddie-in-progress') return <BaddieStage video={build.video} />;
+  if (build.id === 'weekly-digest') return <DigestStage />;
+  return null;
+}
 
-function BaddieStage() {
+function BaddieStage({ video }: { video?: string }) {
   return (
     <>
       <Motif className="top-[32px] left-[32px]">
@@ -46,28 +48,43 @@ function BaddieStage() {
         </svg>
       </Motif>
 
-      <PhoneFrame size="md">
-        <div className="font-mono text-[9px] text-ink-3 text-center">9:41</div>
-        <div className="font-lora text-[13px] text-ink leading-none mt-0.5">This week</div>
-        <div className="text-[9px] text-ink-3 mb-1">strength · 3 sessions</div>
-        <div className="bg-cream-2 rounded-[7px] p-[7px] flex gap-1.5 items-center">
-          <div className="w-5 h-5 rounded bg-pink shrink-0" />
-          <div>
-            <div className="text-[9px] font-medium text-ink">Glute focus · Mon</div>
-            <div className="text-[8px] text-ink-3">5 sets · 45 min</div>
+      {video ? (
+        <PhoneFrame size="md" flush>
+          <video
+            src={video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 w-full h-full object-cover"
+            aria-label="Baddie in Progress app preview"
+          />
+        </PhoneFrame>
+      ) : (
+        <PhoneFrame size="md">
+          <div className="font-mono text-[9px] text-ink-3 text-center">9:41</div>
+          <div className="font-lora text-[13px] text-ink leading-none mt-0.5">This week</div>
+          <div className="text-[9px] text-ink-3 mb-1">strength · 3 sessions</div>
+          <div className="bg-cream-2 rounded-[7px] p-[7px] flex gap-1.5 items-center">
+            <div className="w-5 h-5 rounded bg-pink shrink-0" />
+            <div>
+              <div className="text-[9px] font-medium text-ink">Glute focus · Mon</div>
+              <div className="text-[8px] text-ink-3">5 sets · 45 min</div>
+            </div>
           </div>
-        </div>
-        <div className="bg-cream-2 rounded-[7px] p-[7px] flex gap-1.5 items-center">
-          <div className="w-5 h-5 rounded bg-pink shrink-0" />
-          <div>
-            <div className="text-[9px] font-medium text-ink">Pull · Wed</div>
-            <div className="text-[8px] text-ink-3">4 sets · 38 min</div>
+          <div className="bg-cream-2 rounded-[7px] p-[7px] flex gap-1.5 items-center">
+            <div className="w-5 h-5 rounded bg-pink shrink-0" />
+            <div>
+              <div className="text-[9px] font-medium text-ink">Pull · Wed</div>
+              <div className="text-[8px] text-ink-3">4 sets · 38 min</div>
+            </div>
           </div>
-        </div>
-        <div className="mt-auto bg-pink-darker text-cream text-center py-2 rounded-[7px] text-[9px] font-medium">
-          log session
-        </div>
-      </PhoneFrame>
+          <div className="mt-auto bg-pink-darker text-cream text-center py-2 rounded-[7px] text-[9px] font-medium">
+            log session
+          </div>
+        </PhoneFrame>
+      )}
     </>
   );
 }
@@ -162,7 +179,7 @@ export default function Builds() {
             tilt={BUILD_TILTS[i] ?? 't1'}
             cursorText="view project"
           >
-            <BuildCard build={build} stage={STAGES[build.id] ?? null} />
+            <BuildCard build={build} stage={buildStage(build)} />
           </StickyNote>
         ))}
       </div>

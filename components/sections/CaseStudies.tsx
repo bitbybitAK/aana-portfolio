@@ -12,12 +12,13 @@ import type { ReactNode } from 'react';
 
 const TILTS: Tilt[] = ['t1', 't2', 't3', 't4'];
 
-const SCENES: Record<string, ReactNode> = {
-  'cal-ai': <CalAiScene />,
-  hopper: <HopperScene />,
-  hinge: <HingeScene />,
-  duolingo: <DuolingoScene />,
-};
+function caseStudyStage(study: CaseStudy): ReactNode {
+  if (study.id === 'cal-ai') return <CalAiScene />;
+  if (study.id === 'hopper') return <HopperScene />;
+  if (study.id === 'hinge') return <HingeScene video={study.video} />;
+  if (study.id === 'duolingo') return <DuolingoScene />;
+  return null;
+}
 
 function chunk<T>(items: T[], size: number): T[][] {
   const rows: T[][] = [];
@@ -62,7 +63,7 @@ export default function CaseStudies() {
                 tilt={tilt}
                 cursorText="view case study"
               >
-                <ScenicCard study={study} stage={SCENES[study.id] ?? null} />
+                <ScenicCard study={study} stage={caseStudyStage(study)} />
               </StickyNote>
             );
           })}

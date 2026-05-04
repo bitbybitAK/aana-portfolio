@@ -51,6 +51,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     readCue: '~4 min read · aug 2026',
     status: 'published',
+    video: '/videos/hinge-appstore.mp4',
   },
   {
     id: 'duolingo',
