@@ -1,6 +1,8 @@
 import DeepPageLayout from '@/components/DeepPageLayout';
 import CalAiFunnelChart from '@/components/charts/CalAiFunnelChart';
+import CalAiHeatmapChart from '@/components/charts/CalAiHeatmapChart';
 import CalAiRetentionChart from '@/components/charts/CalAiRetentionChart';
+import CalAiWaterfallChart from '@/components/charts/CalAiWaterfallChart';
 import { caseStudies } from '@/content/case-studies';
 
 const SLUG = 'cal-ai';
@@ -34,6 +36,8 @@ export default function CalAiCaseStudyPage() {
         simple one: three camera scans in the first 48 hours. Hit that, and you
         look like a habit. Miss it, and you&apos;re basically gone.
       </p>
+
+      <CalAiHeatmapChart />
 
       <h2>The analysis</h2>
       <p>
@@ -96,6 +100,8 @@ export default function CalAiCaseStudyPage() {
         double down on segments: protein-first UI and goals for muscle users,
         streak freeze and &quot;welcome back&quot; framing for everyone.
       </p>
+
+      <CalAiWaterfallChart />
 
       <h2>What I would want to validate</h2>
       <p>

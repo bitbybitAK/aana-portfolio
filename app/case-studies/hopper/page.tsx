@@ -1,5 +1,6 @@
 import DeepPageLayout from '@/components/DeepPageLayout';
 import HopperLossRatioChart from '@/components/charts/HopperLossRatioChart';
+import HopperProfitByPremiumChart from '@/components/charts/HopperProfitByPremiumChart';
 import { caseStudies } from '@/content/case-studies';
 
 const SLUG = 'hopper';
@@ -51,6 +52,9 @@ export default function HopperCaseStudyPage() {
         mark. 90 percent only starts to beat 80 percent on profit per offer
         once you push premium to roughly 17 percent of fare.
       </p>
+
+      <HopperProfitByPremiumChart />
+
       <p>
         The attach-rate charts explain the risk story. Travelers love 90
         percent coverage when it&apos;s cheap, so attach rate spikes right
