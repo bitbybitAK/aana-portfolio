@@ -11,7 +11,7 @@ const ICON_CLASS: Record<Accent, string> = {
 
 export default function CommunityCard({ community }: { community: Community }) {
   return (
-    <div className="bg-paper rounded-[12px] px-6 py-5 flex flex-col gap-2.5 aspect-square">
+    <div className="bg-paper rounded-[12px] px-6 py-5 flex flex-col gap-2 aspect-square">
       <div
         className={`w-8 h-8 flex items-center justify-center rounded-lg font-lora text-[18px] font-medium ${ICON_CLASS[community.accent]}`}
       >
@@ -20,6 +20,11 @@ export default function CommunityCard({ community }: { community: Community }) {
       <div className="font-lora text-[17px] leading-[1.2] font-medium text-ink">
         {community.name}
       </div>
+      {community.subtitle && (
+        <div className="font-lora italic text-[12px] leading-[1.4] text-ink-3">
+          {community.subtitle}
+        </div>
+      )}
       <div className="text-[12px] leading-[1.6] text-ink-2 flex-1">
         {community.body}
       </div>

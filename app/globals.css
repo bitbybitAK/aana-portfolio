@@ -381,6 +381,84 @@ button,
 }
 
 /* ============================================================
+   DEEP PROSE — typography for case-study, build, project bodies.
+   The DeepPageLayout <article> wraps children in .deep-prose so
+   these rules style raw <h2>/<p>/<blockquote> children directly.
+   ============================================================ */
+
+.deep-prose h2 {
+  font-family: theme('fontFamily.lora');
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: theme('colors.ink');
+  letter-spacing: -0.005em;
+  margin-top: 56px;
+  margin-bottom: 16px;
+}
+
+.deep-prose h2:first-child {
+  margin-top: 0;
+}
+
+.deep-prose p {
+  font-family: theme('fontFamily.inter');
+  font-size: 16px;
+  line-height: 1.7;
+  color: theme('colors.ink-2');
+  margin-bottom: 20px;
+}
+
+.deep-prose a {
+  color: theme('colors.ink');
+  border-bottom: 1px solid theme('colors.honey-deep');
+  text-decoration: none;
+  transition: color 0.3s, border-color 0.3s;
+  word-break: break-all;
+}
+
+.deep-prose a:hover {
+  color: theme('colors.honey-darker');
+  border-color: theme('colors.honey-darker');
+}
+
+.deep-prose .italic-pull-quote {
+  font-family: theme('fontFamily.lora');
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.45;
+  color: theme('colors.ink');
+  border-left: 3px solid theme('colors.honey-deep');
+  padding-left: 24px;
+  margin: 56px 0;
+}
+
+/* ============================================================
+   FIREFLY-STATIC — centered static instance for coming-soon pages.
+   ============================================================ */
+
+.firefly-static {
+  width: 104px;
+  height: 84px;
+}
+
+.firefly-static svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.firefly-static .firefly-body    { fill: theme('colors.ink-2'); }
+.firefly-static .firefly-wing    { fill: theme('colors.border'); }
+.firefly-static .firefly-antenna { stroke: theme('colors.ink-2'); }
+.firefly-static .firefly-glow {
+  fill: #F2D67A;
+  filter:
+    drop-shadow(0 0 14px rgba(242, 206, 116, 0.85))
+    drop-shadow(0 0 28px rgba(232, 177, 75, 0.55));
+}
+
+/* ============================================================
    SCENE STAGES — 4 case-study gradients.
    The accent stop uses theme(); the fog stop has no token equivalent
    (flagged — easy to lift to a token if a fog scale is added).

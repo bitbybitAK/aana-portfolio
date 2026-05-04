@@ -53,9 +53,11 @@ export interface CaseStudy {
   number: string;
   logo: string;
   title: string;
+  subtitle?: string;
   expandParagraphs: string[];
   readCue: string;
   status: CaseStudyStatus;
+  comingSoon?: boolean;
 }
 
 export interface Build {
@@ -103,6 +105,7 @@ export interface Community {
   icon: string;
   accent: Accent;
   name: string;
+  subtitle?: string;
   body: string;
 }
 
@@ -127,11 +130,15 @@ export interface SidebarContent {
 }
 
 export interface AboutContent {
-  taglineLead: string;
-  taglineBody: string;
   communitiesSubhead: string;
   readingSubhead: string;
   heroPhotos: HeroPhoto[];
+}
+
+export interface IntroVersionB {
+  prose: string;
+  bullets: string[];
+  bulletsHeader: string;
 }
 
 export interface TopbarContent {

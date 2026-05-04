@@ -8,7 +8,8 @@ export const site: SiteContent = {
   },
   sidebar: {
     name: 'Aana Khanduri',
-    taglinePlaceholder: "[ a tagline you'll add, your own ]",
+    taglinePlaceholder:
+      'Curious about what users do, what markets signal, and how data turns that into decisions.',
     exploreLabel: 'explore',
     navLinks: [
       { number: '01', label: 'About me', sectionId: 'about' },
@@ -21,10 +22,10 @@ export const site: SiteContent = {
     status: {
       rotationMs: 6000,
       messages: [
-        '[ status one ]',
-        '[ status two ]',
-        '[ status three ]',
-        '[ status four ]',
+        'Turning small frictions in my own life into tiny shipped tools.',
+        'Practicing data narratives that give people enough conviction to actually move.',
+        'Looking for a community that likes new ideas and ships fast.',
+        'Learning how far I can push AI before human judgment is still better.',
       ],
     },
   },
