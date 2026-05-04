@@ -135,7 +135,7 @@ export interface AboutContent {
   heroPhotos: HeroPhoto[];
 }
 
-export interface IntroVersionB {
+export interface IntroContent {
   prose: string;
   bullets: string[];
   bulletsHeader: string;

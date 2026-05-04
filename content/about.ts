@@ -1,10 +1,8 @@
-import type { AboutContent, IntroVersionB } from '@/types/content';
+import type { AboutContent, IntroContent } from '@/types/content';
 
-const introVersionA =
-  "I just moved to San Francisco from the East Coast and the energy here genuinely got me. I work across data and product, between business questions and the people who need to answer them. I've worked with real estate, product, and sales data, and I'm genuinely curious about how the same behavior shows up differently across industries.";
-
-const introVersionB: IntroVersionB = {
-  prose: introVersionA,
+export const intro: IntroContent = {
+  prose:
+    "I just moved to San Francisco from the East Coast and the energy here genuinely got me. I work across data and product, between business questions and the people who need to answer them. I've worked with real estate, product, and sales data, and I'm genuinely curious about how the same behavior shows up differently across industries.",
   bullets: [
     'Using AI to fix my own daily friction points before anything else',
     'In a random hobby class I signed up for on a whim',
@@ -13,11 +11,6 @@ const introVersionB: IntroVersionB = {
   ],
   bulletsHeader: 'Lately:',
 };
-
-// Toggle this constant to switch between versions on localhost.
-export const ACTIVE_INTRO_VERSION: 'A' | 'B' = 'A';
-export const introA = introVersionA;
-export const introB = introVersionB;
 
 export const about: AboutContent = {
   communitiesSubhead: "communities I'm part of",
