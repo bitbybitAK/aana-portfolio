@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lora, Inter, JetBrains_Mono, Caveat } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const lora = Lora({
@@ -43,6 +44,7 @@ export default function RootLayout({
         className={`${lora.variable} ${inter.variable} ${mono.variable} ${caveat.variable} font-sans bg-cream text-ink-primary antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
