@@ -386,7 +386,7 @@ button,
    these rules style raw <h2>/<p>/<blockquote> children directly.
    ============================================================ */
 
-.deep-prose h2 {
+.deep-prose > h2 {
   font-family: theme('fontFamily.lora');
   font-size: 28px;
   font-weight: 500;
@@ -397,11 +397,11 @@ button,
   margin-bottom: 16px;
 }
 
-.deep-prose h2:first-child {
+.deep-prose > h2:first-child {
   margin-top: 0;
 }
 
-.deep-prose p {
+.deep-prose > p {
   font-family: theme('fontFamily.inter');
   font-size: 16px;
   line-height: 1.7;
@@ -422,7 +422,7 @@ button,
   border-color: theme('colors.honey-darker');
 }
 
-.deep-prose .italic-pull-quote {
+.deep-prose > blockquote.italic-pull-quote {
   font-family: theme('fontFamily.lora');
   font-style: italic;
   font-size: 24px;

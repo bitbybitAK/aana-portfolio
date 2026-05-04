@@ -1,4 +1,6 @@
 import DeepPageLayout from '@/components/DeepPageLayout';
+import CalAiFunnelChart from '@/components/charts/CalAiFunnelChart';
+import CalAiRetentionChart from '@/components/charts/CalAiRetentionChart';
 import { caseStudies } from '@/content/case-studies';
 
 const SLUG = 'cal-ai';
@@ -43,6 +45,9 @@ export default function CalAiCaseStudyPage() {
         about 16 percent of installs ever log a second meal, which means the
         funnel kills people before they can even try to reach that threshold.
       </p>
+
+      <CalAiFunnelChart />
+
       <p>
         The drop-offs are boring but fixable. A long quiz followed by a cold
         camera permission prompt with no preview of the scan. A TikTok user
@@ -66,6 +71,9 @@ export default function CalAiCaseStudyPage() {
         let people freeze a streak and welcome them back with their progress
         intact.
       </p>
+
+      <CalAiRetentionChart />
+
       <p>
         Goal-level behavior tells you who actually feels the speed promise.
         &quot;Build muscle&quot; users, with simple repeatable meals, have the

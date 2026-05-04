@@ -1,4 +1,5 @@
 import DeepPageLayout from '@/components/DeepPageLayout';
+import HopperLossRatioChart from '@/components/charts/HopperLossRatioChart';
 import { caseStudies } from '@/content/case-studies';
 
 const SLUG = 'hopper';
@@ -40,6 +41,9 @@ export default function HopperCaseStudyPage() {
         slightly lower for 80 percent, but the extra demand for 90 percent
         doesn&apos;t offset how expensive those payouts are at low premiums.
       </p>
+
+      <HopperLossRatioChart />
+
       <p>
         Across the premium range, 80 percent looks like a stable workhorse. It
         mostly sits in a 65 to 75 percent loss ratio band, while 90 percent
